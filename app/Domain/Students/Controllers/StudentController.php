@@ -20,8 +20,15 @@ class StudentController extends Controller
 
     public function index()
     {
-        $students = $this->studentService->getListStudents();
-        return view("backend.students.index", ['students' => $students]);
+
+        return view("backend.students.index");
+    }
+
+    public function list()
+    {
+        return response()->json([
+            'data' => $this->studentService->getListStudents()
+        ]);
     }
 
     public function create()

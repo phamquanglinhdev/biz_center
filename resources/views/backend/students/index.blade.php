@@ -11,18 +11,13 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Scroll - Horizontal</h5>
+                        <h5 class="card-title mb-0">Học sinh</h5>
                     </div>
                     <div class="card-body">
-                        <table id="students-table" class="table nowrap align-middle" style="width:100%">
+                        <table id="students-table" class="display table table-bordered dt-responsive"
+                               style="width:100%">
                             <thead>
                             <tr>
-                                {{--                                <th scope="col" style="width: 10px;">--}}
-                                {{--                                    <div class="form-check">--}}
-                                {{--                                        <input class="form-check-input fs-15" type="checkbox" id="checkAll"--}}
-                                {{--                                               value="option">--}}
-                                {{--                                    </div>--}}
-                                {{--                                </th>--}}
                                 <th>Mã HV</th>
                                 <th>Họ và tên</th>
                                 <th>Số điện thoại</th>
@@ -34,51 +29,19 @@
                                 <th>Hành động</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            @for($i=0;$i<3000;$i++)
-                                @foreach($students as $student)
-                                    <tr>
-                                        {{--                                    <th scope="row">--}}
-                                        {{--                                        <div class="form-check">--}}
-                                        {{--                                            <input class="form-check-input fs-15" type="checkbox" name="checkAll"--}}
-                                        {{--                                                   value="option1">--}}
-                                        {{--                                        </div>--}}
-                                        {{--                                    </th>--}}
-                                        <td>{{$student->code}}</td>
-                                        <td>{{$student->name}}</td>
-                                        <td>{{$student->phone}}</td>
-                                        <td>{{$student->parent??"-"}}</td>
-                                        <td>{{$student->staff??"-"}}</td>
-                                        <td>{{$student->grade??"-"}}</td>
-                                        <td>{{$student->status??"-"}}</td>
-                                        <td>{{$student->invoice->status??"Chưa học"}}</td>
-                                        <td>
-                                            <div class="dropdown d-inline-block">
-                                                <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
-                                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="ri-more-fill align-middle"></i>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a href="#!" class="dropdown-item"><i
-                                                                class="ri-eye-fill align-bottom me-2 text-muted"></i>
-                                                            View</a>
-                                                    </li>
-                                                    <li><a class="dropdown-item edit-item-btn"><i
-                                                                class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                            Edit</a></li>
-                                                    <li>
-                                                        <a class="dropdown-item remove-item-btn">
-                                                            <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                                            Delete
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endfor
-                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Mã HV</th>
+                                <th>Họ và tên</th>
+                                <th>Số điện thoại</th>
+                                <th>Phụ huynh</th>
+                                <th>Nhân viên quản lý</th>
+                                <th>Lớp đang học</th>
+                                <th>Tình trạng lớp học</th>
+                                <th>Tình trạng học phí</th>
+                                <th>Hành động</th>
+                            </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -101,7 +64,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script>
+        $(document).ready(function () {
+            $('#students-table').DataTable({
+                ajax: "{{route("backend.students.list")}}",
+                columns: [
+                    {data: 'code'},
+                    {data: 'name'},
+                    {data: 'phone'},
+                    {data: 'parent'},
+                    {data: 'staff'},
+                    {data: 'grade'},
+                    {data: 'gradeStatus'},
+                    {data: 'invoiceStatus'},
+                    {
+                        mData: 'id', mRender: function (data, type, row) {
+                            return "<a href='Admin/Categories/Edit/" + data + "'>EDIT</a>";
+                        }
+                    },
+                ],
+                scrollX: !0,
+                scrollY: "500px",
+                scrollCollapse: !0
+            });
+        });
         // new DataTable("#scroll-horizontal", )
-        $('#students-table').DataTable({scrollX: !0, scrollY: "500px", scrollCollapse: !0});
+
     </script>
 @endpush

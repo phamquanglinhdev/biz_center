@@ -3,6 +3,7 @@
 namespace App\Domain\Students\Services;
 
 use App\Domain\Students\DTOs\StudentDto;
+use App\Domain\Students\DTOs\StudentToListDto;
 use App\Domain\Students\Repositories\StudentRepositoryInterface;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -21,7 +22,18 @@ class StudentService
 
     public function getListStudents()
     {
-        return $this->studentRepository->listAllStudent();
+        $studentsToList = [];
+        $students = $this->studentRepository->listAllStudent();
+        foreach ($students as $student) {
+            $studentToList = new StudentToListDto();
+            $studentToList->setId($student->id);
+            $studentToList->setCode($student->code);
+            $studentToList->setName($student->name);
+            $studentToList->setPhone($student->phone);
+            $studentToList->setParent($student->parent ?? "-");
+            $studentsToList[] = $studentToList;
+        }
+        return $studentsToList;
     }
 
     public function createStudent(array $attributes)

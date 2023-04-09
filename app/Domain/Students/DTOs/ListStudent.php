@@ -2,7 +2,7 @@
 
 namespace App\Domain\Students\DTOs;
 
-class StudentToListDto
+class ListStudent
 {
     public string $id;
 
@@ -21,22 +21,24 @@ class StudentToListDto
     {
         $this->id = $id;
     }
+
     public string $code;
     public string $name;
     public string $phone;
     public string $parent;
-
     public string $staff;
     public string $grade;
     public string $gradeStatus;
     public string $invoiceStatus;
+    public string $role;
 
     public function __construct()
     {
         $this->staff = "-";
         $this->grade = "-";
+
         $this->gradeStatus = "Chưa học";
-        $this->staff = "Chưa học";
+        $this->status = "Chưa học";
         $this->invoiceStatus = "Chưa học";
     }
 

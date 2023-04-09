@@ -20,9 +20,11 @@ class StudentDto
     private string $parent_phone;
     private string $avatar;
     private string $password;
+    private string $role;
 
     public function __construct()
     {
+        $this->role = "student";
     }
 
     /**
@@ -207,6 +209,7 @@ class StudentDto
             'parent_phone' => $this->getParentPhone(),
             'password' => $this->getPassword(),
             'avatar' => $this->getAvatar(),
+            'role' => $this->role,
         ];
     }
 

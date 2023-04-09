@@ -13,11 +13,13 @@ interface StudentRepositoryInterface
 
     public function listStudentOfTeacher($teacher_id, $orderBy = "created_at", $direction = "ASC", $perPage = 15);
 
-    public function findByEmail($email);
+    public function findById($id);
 
     public function createStudent(StudentDto $studentDto);
 
     public function updateStudent(int $id, StudentDto $studentDto);
 
     public function deleteStudent(int $id);
+
+    public function studentToTable($page = 0, $filter = []);
 }

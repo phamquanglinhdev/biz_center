@@ -3,10 +3,11 @@
 namespace App\Domain\Students\Services;
 
 use App\Domain\Students\DTOs\StudentDto;
-use App\Domain\Students\DTOs\StudentToListDto;
+use App\Domain\Students\DTOs\ListStudent;
 use App\Domain\Students\Repositories\StudentRepositoryInterface;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class StudentService
 {
@@ -20,61 +21,31 @@ class StudentService
         $this->studentRepository = $studentRepository;
     }
 
-    public function getListStudents()
-    {
-        $studentsToList = [];
-        $students = $this->studentRepository->listAllStudent();
-        foreach ($students as $student) {
-            $studentToList = new StudentToListDto();
-            $studentToList->setId($student->id);
-            $studentToList->setCode($student->code);
-            $studentToList->setName($student->name);
-            $studentToList->setPhone($student->phone);
-            $studentToList->setParent($student->parent ?? "-");
-            $studentsToList[] = $studentToList;
-        }
-        return $studentsToList;
-    }
-
     public function createStudent(array $attributes)
     {
-        if (!$attributes["code"]) {
-            return response()->json([
-                'message' => 'Thiếu mã học sinh'
-            ], 403);
+        $validator = Validator::make($attributes, [
+            'name' => 'bail|required|max:255',
+            'code' => 'bail|required|max:10',
+            'birthday' => 'bail|required',
+            'phone' => 'bail|required',
+            'email' => 'bail|email|required|unique:users',
+            'password' => 'bail|required',
+        ], [
+            'name.required' => 'Thiếu tên học sinh',
+            'code.required' => 'Thiếu mã học sinh',
+            'birthday.required' => 'Thiếu mật khẩu',
+            'phone.required' => 'Thiếu số điện thoại',
+            'email.required' => 'Thiếu email',
+            'email.email' => 'Email không đúng định dạng',
+            'email.unique' => 'Địa chỉ email đã được đăng ký',
+            'password.required' => 'Thiếu mật khẩu',
+        ]);
+        if ($validator->fails()) {
+
+            $errors = $validator->errors();
+            return redirect()->back()->withErrors($validator->errors());
         }
-        if (!$attributes["password"]) {
-            return response()->json([
-                'message' => 'Thiếu mật khẩu'
-            ], 403);
-        }
-        if (!$attributes["name"]) {
-            return response()->json([
-                'message' => 'Thiếu tên học sinh'
-            ], 403);
-        }
-        if (!$attributes["birthday"]) {
-            return response()->json([
-                'message' => 'Thiếu sinh nhật'
-            ], 403);
-        }
-        if (!$attributes["phone"]) {
-            return response()->json([
-                'message' => 'Thiếu số điện thoại'
-            ], 403);
-        }
-        if (!$attributes["email"]) {
-            return response()->json([
-                'message' => 'Thiếu email'
-            ], 403);
-        }
-        $attributes["password"] = Hash::make($attributes["password"]);
         $attributes["birthday"] = Carbon::parse($attributes["birthday"])->toDateString();
-        if ($this->studentRepository->findByEmail($attributes['email'])) {
-            return response()->json([
-                'message' => 'Trùng email'
-            ], 403);
-        }
         $studentDto = new StudentDto();
         foreach ($attributes as $propertyName => $value) {
             if ($value && $propertyName != "_token") {
@@ -83,6 +54,27 @@ class StudentService
         }
 
         $this->studentRepository->createStudent($studentDto);
+    }
+
+    public function studentTable($page = 0, $input = []): array
+    {
+        $lists = [];
+        $students = $this->studentRepository->studentToTable($page, $input);
+        foreach ($students as $student) {
+            $studentToList = new ListStudent();
+            $studentToList->setId($student->id);
+            $studentToList->setCode($student->code);
+            $studentToList->setName($student->name);
+            $studentToList->setPhone($student->phone);
+            $studentToList->setParent($student->parent ?? "-");
+            $lists[] = $studentToList;
+        }
+        return $lists;
+    }
+
+    public function getStudentById($id)
+    {
+
     }
 
 }

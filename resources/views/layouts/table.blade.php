@@ -1,11 +1,11 @@
 @extends("layouts.backend")
 @push("crud_styles")
-    <!-- gridjs css -->
-    {{--    <link rel="stylesheet" href="{{asset("assets/libs/gridjs/theme/mermaid.min.css")}}">--}}
-    <link rel="stylesheet" type="text/css"
-          href="https://datatables.net/release-datatables/media/css/dataTables.bootstrap4.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="https://datatables.net/release-datatables/extensions/FixedColumns/css/fixedColumns.bootstrap4.css"/>
+    <!--datatable css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.2.2/css/fixedColumns.bootstrap5.min.css">
+
 @endpush
 
 @section("content")
@@ -22,11 +22,19 @@
 @endsection
 
 @push("crud_scripts")
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="https://datatables.net/release-datatables/media/js/jquery.dataTables.js"></script>
-    <script src="https://datatables.net/release-datatables/media/js/dataTables.bootstrap4.js"></script>
-    <script
-        src="https://datatables.net/release-datatables/extensions/FixedColumns/js/dataTables.fixedColumns.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!--datatable js-->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#crud_table').DataTable({
@@ -34,8 +42,7 @@
                 scrollX: true,
                 scrollCollapse: true,
                 fixedColumns: {
-                    left: 1,
-                    right: 1
+                    left: {{$fixColumn??0}},
                 },
                 "language": {
                     "sProcessing": "Đang load",
@@ -54,6 +61,12 @@
                     },
                 }
             });
-        });
+            $(".dataTables_scrollHeadInner").css("width","{{$tableWidth??"100%"}}")
+            $(".table").css("width","{{$tableWidth??"100%"}}")
+            document.body.addEventListener("click", function(e) {
+                $(".dataTables_scrollHeadInner").css("width","{{$tableWidth??"100%"}}")
+                $(".table").css("width","{{$tableWidth??"100%"}}")
+            })
+        })
     </script>
 @endpush

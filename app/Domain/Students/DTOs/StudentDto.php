@@ -19,12 +19,13 @@ class StudentDto
     private string $parent;
     private string $parent_phone;
     private string $avatar;
-    private string $password;
+    private ?string $password;
     private string $role;
 
     public function __construct()
     {
         $this->role = "student";
+        $this->password = null;
     }
 
     /**
@@ -102,9 +103,9 @@ class StudentDto
     /**
      * @return string
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
-        return $this->password;
+        return $this->password ?? null;
     }
 
     /**
@@ -192,13 +193,13 @@ class StudentDto
      */
     public function setProperty($propertyName, $value): void
     {
-        $this->{"set" . $propertyName}($value);
+        $this->{$propertyName} = $value;
     }
 
 
     public function toArray(): array
     {
-        return [
+        $array = [
             'name' => $this->getName(),
             'code' => $this->getCode(),
             'birthday' => $this->getBirthday(),
@@ -207,10 +208,13 @@ class StudentDto
             'address' => $this->getAddress(),
             'parent' => $this->getParent(),
             'parent_phone' => $this->getParentPhone(),
-            'password' => $this->getPassword(),
             'avatar' => $this->getAvatar(),
             'role' => $this->role,
         ];
+        if ($this->password) {
+            $array["password"] = Hash::make($this->password);
+        }
+        return $array;
     }
 
 }

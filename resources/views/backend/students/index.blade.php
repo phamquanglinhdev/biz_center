@@ -46,14 +46,14 @@
                 </div><!-- end card header -->
 
                 <div class="card-body">
-                    <table class="table w-100 table-striped" id="crud_table">
+                    <table class="table table-striped justify-content-around" id="crud_table">
                         <thead class="bg-primary text-white">
-                        <tr>
+                        <tr >
                             <th scope="col" class="bg-primary">Mã học sinh</th>
-                            <th scope="col">Tên học sinh</th>
-                            <th scope="col">Số điện thoại</th>
-                            <th scope="col">Phụ huynh</th>
-                            <th scope="col">Nhân viên</th>
+                            <th scope="col" class="bg-primary">Tên học sinh</th>
+                            <th scope="col" class="bg-primary">Số điện thoại</th>
+                            <th scope="col" class="bg-primary">Phụ huynh</th>
+                            <th scope="col" class="bg-primary">Nhân viên</th>
                             <th scope="col">Lớp đang học</th>
                             <th scope="col">Trạng thái lớp</th>
                             <th scope="col">Trạng thái học phí</th>
@@ -86,9 +86,10 @@
                                             <li><a href="#!" class="dropdown-item"><i
                                                         class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
                                             </li>
-                                            <li><a class="dropdown-item edit-item-btn"><i
+                                            <li><a class="dropdown-item edit-item-btn"
+                                                   href="{{route("backend.students.edit",['id'=>$student->id])}}"><i
                                                         class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                    Edit</a></li>
+                                                    Sửa</a></li>
                                             <li>
                                                 <a class="dropdown-item remove-item-btn">
                                                     <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>

@@ -41,12 +41,13 @@ class StudentRepository implements StudentRepositoryInterface
     public function createStudent(StudentDto $studentDto)
     {
         $this->model->create($studentDto->toArray());
-        return redirect()->route("backend.student.create");
+        return redirect()->route("backend.student.index");
     }
 
-    public function updateStudent(int $id, StudentDto $studentDto): void
+    public function updateStudent(int $id, StudentDto $studentDto)
     {
         $this->model->where("id", $id)->update($studentDto->toArray());
+        return redirect()->route("backend.students.index");
     }
 
     public function deleteStudent(int $id): void

@@ -20,8 +20,8 @@ class StudentController extends Controller
 
     public function index(Request $request)
     {
-        $students = $this->studentService->studentTable($request->page ?? 0, $request->$request->except('_token'));
-        return view("backend.students.index", ["students" => $students]);
+        $students = $this->studentService->studentTable($request->page ?? 0, $request->all());
+        return view("backend.students.index", ["students" => $students,'fixColumn'=>2,"tableWidth"=>"100%"]);
     }
 
     public function create()
@@ -32,5 +32,16 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         return $this->studentService->createStudent($request->except('_token'));
+    }
+
+    public function edit($id)
+    {
+        $old = $this->studentService->getStudentById($id);
+        return view("backend.students.edit", ['old' => $old]);
+    }
+
+    public function update(Request $request)
+    {
+        return $this->studentService->updateStudent($request->except("_token", "_method"));
     }
 }

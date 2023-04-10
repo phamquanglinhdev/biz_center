@@ -4,12 +4,12 @@ namespace App\Domain\Students\Services;
 
 use App\Domain\Students\DTOs\StudentDto;
 use App\Domain\Students\DTOs\ListStudent;
+use App\Domain\Students\DTOs\StudentEditDto;
 use App\Domain\Students\DTOs\StudentShowDto;
 use App\Domain\Students\Repositories\StudentRepositoryInterface;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
-use Yajra\DataTables\Contracts\DataTable;
-use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 class StudentService
 {
@@ -64,27 +64,23 @@ class StudentService
         $lists = [];
         $students = $this->studentRepository->studentToTable($input);
         foreach ($students as $student) {
-            $studentToList = new ListStudent();
-            $studentToList->setId($student->id);
-            $studentToList->setCode($student->code);
-            $studentToList->setName($student->name);
-            $studentToList->setPhone($student->phone);
-            $studentToList->setParent($student->parent ?? "-");
+            $studentToList = new ListStudent($student);
             $lists[] = $studentToList;
         }
-        $datatable = new DataTables();
+        return DataTables::collection($lists)
+            ->addColumn("action", "I")
+            ->editColumn("name", "backend.students.columns.name")
+            ->editColumn("action", "backend.students.columns.action")
+            ->rawColumns(["name", "action"])
+            ->toJson();
 
-        return $datatable
-            ->collection($lists)
-            ->addColumn("action",".")
-            ->make(true);
     }
 
     public function getStudentById($id)
     {
         $student = $this->studentRepository->findById($id);
         if ($student) {
-            return new StudentShowDto($student);
+            return new StudentEditDto($student);
         } else {
             return abort(404);
         }
@@ -128,6 +124,12 @@ class StudentService
             return redirect()->back()->withErrors(["message" => 'Xóa thất bại']);
         }
         return $this->studentRepository->deleteStudent($id);
+    }
+
+    public function getStudentToShow($id)
+    {
+        $student = $this->studentRepository->findById($id);
+        return new StudentShowDto($student);
     }
 
 }

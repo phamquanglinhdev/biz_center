@@ -30,6 +30,12 @@ class StudentController extends Controller
         return view("backend.students.index");
     }
 
+    public function show($id)
+    {
+        $student = $this->studentService->getStudentToShow($id);
+        return view("backend.students.show", ['student' => $student]);
+    }
+
     public function create()
     {
         return view("backend.students.create");
@@ -48,6 +54,7 @@ class StudentController extends Controller
 
     public function update(Request $request)
     {
+//        dd($request->input());
         return $this->studentService->updateStudent($request->except("_token", "_method"));
     }
 

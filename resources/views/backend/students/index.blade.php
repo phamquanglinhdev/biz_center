@@ -45,8 +45,8 @@
                     </a>
                 </div><!-- end card header -->
 
-                <div class="card-body">
-                    <table class="table table-striped justify-content-around" id="crud_table">
+                <div class="card-body bg-white">
+                    <table class="border bg-white table table-striped justify-content-around" id="crud_table">
                         <thead>
                         <tr class="bg-primary text-white">
                             <th scope="col" class="bg-primary text-white">Mã học sinh</th>
@@ -57,15 +57,22 @@
                             <th scope="col" class="bg-primary text-white">Lớp đang học</th>
                             <th scope="col" class="bg-primary text-white">Trạng thái lớp</th>
                             <th scope="col" class="bg-primary text-white">Trạng thái học phí</th>
-                            <th scope="col" class="bg-primary text-white">Trạng thái học phí</th>
-                            <th scope="col" class="bg-primary text-white">Trạng thái học phí</th>
-                            <th scope="col" class="bg-primary text-white">Trạng thái học phí</th>
-                            <th scope="col" class="bg-primary text-white">Trạng thái học phí</th>
-                            <th scope="col" class="bg-primary text-white">Trạng thái học phí</th>
-                            <th scope="col" class="bg-primary text-white">Trạng thái học phí</th>
-                            <th scope="col" class="bg-primary text-white">Hành động</th>
+                            <th scope="col" class="bg-primary text-white text-center">Hành động</th>
                         </tr>
                         </thead>
+                        <tfoot>
+                        <tr class="bg-primary text-white">
+                            <th scope="col" class="bg-primary text-white">Mã học sinh</th>
+                            <th scope="col" class="bg-primary text-white">Tên học sinh</th>
+                            <th scope="col" class="bg-primary text-white">Số điện thoại</th>
+                            <th scope="col" class="bg-primary text-white">Phụ huynh</th>
+                            <th scope="col" class="bg-primary text-white">Nhân viên</th>
+                            <th scope="col" class="bg-primary text-white">Lớp đang học</th>
+                            <th scope="col" class="bg-primary text-white">Trạng thái lớp</th>
+                            <th scope="col" class="bg-primary text-white">Trạng thái học phí</th>
+                            <th scope="col" class="bg-primary text-white text-center">Hành động</th>
+                        </tr>
+                        </tfoot>
                     </table>
                 </div><!-- end card-body -->
             </div><!-- end card -->
@@ -97,10 +104,11 @@
                 paging: true,
                 scrollCollapse: true,
                 fixedColumns: {
-                    left: 2
+                    left: 2,
+                    right: 0,
                 },
-                searchable: false,
-                minWidth:"200px",
+                searching: false,
+                minWidth: "200px",
                 columns: [
                     {data: 'code', name: "Mã HS"},
                     {data: 'name', name: "Tên học sinh"},
@@ -109,12 +117,6 @@
                     {data: 'staff', name: "Nhân viên"},
                     {data: 'grade', name: "Lớp đang học"},
                     {data: 'gradeStatus', name: "Trạng thái lớp"},
-                    {data: 'invoiceStatus', name: "Trạng thái học phí"},
-                    {data: 'invoiceStatus', name: "Trạng thái học phí"},
-                    {data: 'invoiceStatus', name: "Trạng thái học phí"},
-                    {data: 'invoiceStatus', name: "Trạng thái học phí"},
-                    {data: 'invoiceStatus', name: "Trạng thái học phí"},
-                    {data: 'invoiceStatus', name: "Trạng thái học phí"},
                     {data: 'invoiceStatus', name: "Trạng thái học phí"},
                     {data: 'action', name: "Hành động"},
                 ],
@@ -138,6 +140,8 @@
         })
     </script>
     <style>
-        table th { min-width: 120px; }
+        table th {
+            min-width: 9em;
+        }
     </style>
 @endsection

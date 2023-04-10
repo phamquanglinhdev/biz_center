@@ -2,8 +2,6 @@
 
 namespace App\Domain\Students\DTOs;
 
-use App\Domain\Students\Entites\Student;
-
 class StudentShowDto
 {
     public string $id;
@@ -12,27 +10,31 @@ class StudentShowDto
     public string $birthday;
     public string $phone;
     public string $email;
+    public string $role;
     public ?string $address;
     public ?string $parent;
     public ?string $parent_phone;
     public ?string $avatar;
+    public ?string $currentGrade;
+    public ?string $currentGradeStatus;
+    public ?string $invoiceStatus;
 
-    public function __construct(Student $student)
+    public function __construct($collection)
     {
-        $this->id = $student->id ?? null;
-        $this->code = $student->code ?? null;
-        $this->name = $student->name ?? null;
-        $this->birthday = $student->birthday ?? null;
-        $this->phone = $student->phone ?? null;
-        $this->email = $student->email ?? null;
-        $this->address = $student->address ?? null;
-        $this->parent = $student->parent ?? null;
-        $this->parent_phone = $student->parent_phone ?? null;
-        $this->avatar = $student->avatar ?? null;
+        $this->id = $collection->id;
+        $this->code = $collection->code;
+        $this->name = $collection->name;
+        $this->birthday = $collection->birthday;
+        $this->phone = $collection->phone;
+        $this->email = $collection->email;
+        $this->role = $collection->role;
+        $this->address = $collection->address;
+        $this->parent_phone = $collection->parent_phone ?? null;
+        $this->parent = $collection->parent ?? null;
+        $this->avatar = $collection->avatar ?? "https://haycafe.vn/wp-content/uploads/2022/03/Avatar-anime.jpg";
+        $this->currentGradeStatus = "Chưa học";
+        $this->currentGrade = "Chưa học";
+        $this->invoiceStatus = "Chưa học";
     }
-
-    /**
-     * @return string
-     */
 
 }

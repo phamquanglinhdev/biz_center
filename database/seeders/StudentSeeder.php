@@ -17,19 +17,6 @@ class StudentSeeder extends Seeder
      */
     public function run(): void
     {
-//        $table->id();
-//        $table->string("code")->unique();
-//        $table->string('name');
-//        $table->string('email')->unique();
-//        $table->date("birthday")->nullable();
-//        $table->string("phone")->nullable();
-//        $table->string("address")->nullable();
-//        $table->string("parent")->nullable();
-//        $table->string("parent_phone")->nullable();
-//        $table->longText("avatar")->nullable();
-//        $table->timestamp('email_verified_at')->nullable();
-//        $table->string("role");
-//        $table->string('password');
         for ($i = 1; $i < 4000; $i++) {
             $student = [
                 'code' => 'HS' . $i,
@@ -37,7 +24,7 @@ class StudentSeeder extends Seeder
                 'parent' => fake("vi_VN")->lastName . " " . fake("vi_VN")->lastName,
                 'email' => fake("vi_VN")->email,
                 'birthday' => Carbon::now(),
-                'phone' => fake()->phoneNumber,
+                'phone' => fake("vi_VN")->phoneNumber,
                 'address' => fake("vi_VN")->address,
                 'avatar' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png',
                 'role' => 'student',

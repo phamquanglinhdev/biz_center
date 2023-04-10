@@ -37,7 +37,7 @@ class StudentRepository implements StudentRepositoryInterface
         if (Arr::exists($filter, "parent")) {
             $query = $query->where("phone", "like", "%" . $filter["phone"] . "%");
         }
-        return $query->orderBy("created_at", "ASC")->get();
+        return $query->orderBy("created_at", "DESC")->get();
     }
 
     public function listAllStudent($orderBy = "created_at", $direction = "ASC", $perPage = 15)

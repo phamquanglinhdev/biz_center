@@ -13,12 +13,12 @@ class StudentDto
     private string $code;
     private string $name;
     private string $birthday;
+    private string $avatar;
     private string $phone;
     private string $email;
     private string $address;
     private string $parent;
     private string $parent_phone;
-    private string $avatar;
     private ?string $password;
     private string $role;
 

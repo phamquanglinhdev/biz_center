@@ -18,10 +18,16 @@ class StudentController extends Controller
         $this->studentService = $studentService;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function index(Request $request)
     {
-        $students = $this->studentService->studentTable($request->all());
-        return view("backend.students.index", ["students" => $students, 'fixColumn' => 2, "tableWidth" => "100%"]);
+        if ($request->ajax()) {
+            return $this->studentService->studentTable($request->all());
+        }
+//        dd($this->studentService->studentTable($request->all()));
+        return view("backend.students.index");
     }
 
     public function create()

@@ -6,9 +6,10 @@ use App\Domain\Students\DTOs\StudentDto;
 use App\Domain\Students\DTOs\ListStudent;
 use App\Domain\Students\DTOs\StudentShowDto;
 use App\Domain\Students\Repositories\StudentRepositoryInterface;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Contracts\DataTable;
+use Yajra\DataTables\DataTables;
 
 class StudentService
 {
@@ -55,7 +56,10 @@ class StudentService
         return $this->studentRepository->createStudent($studentDto);
     }
 
-    public function studentTable($input = []): array
+    /**
+     * @throws \Exception
+     */
+    public function studentTable($input = [])
     {
         $lists = [];
         $students = $this->studentRepository->studentToTable($input);
@@ -68,7 +72,12 @@ class StudentService
             $studentToList->setParent($student->parent ?? "-");
             $lists[] = $studentToList;
         }
-        return $lists;
+        $datatable = new DataTables();
+
+        return $datatable
+            ->collection($lists)
+            ->addColumn("action",".")
+            ->make(true);
     }
 
     public function getStudentById($id)

@@ -47,67 +47,25 @@
 
                 <div class="card-body">
                     <table class="table table-striped justify-content-around" id="crud_table">
-                        <thead class="bg-primary text-white">
-                        <tr>
-                            <th scope="col" class="bg-primary">STT</th>
-                            <th scope="col" class="bg-primary">Mã học sinh</th>
-                            <th scope="col" class="bg-primary">Tên học sinh</th>
-                            <th scope="col" class="bg-primary">Số điện thoại</th>
-                            <th scope="col" class="bg-primary">Phụ huynh</th>
-                            <th scope="col" class="bg-primary">Nhân viên</th>
-                            <th scope="col">Lớp đang học</th>
-                            <th scope="col">Trạng thái lớp</th>
-                            <th scope="col">Trạng thái học phí</th>
-                            <th scope="col">Hành động</th>
+                        <thead>
+                        <tr class="bg-primary text-white">
+                            <th scope="col" class="bg-primary text-white">Mã học sinh</th>
+                            <th scope="col" class="bg-primary text-white">Tên học sinh</th>
+                            <th scope="col" class="bg-primary text-white">Số điện thoại</th>
+                            <th scope="col" class="bg-primary text-white">Phụ huynh</th>
+                            <th scope="col" class="bg-primary text-white">Nhân viên</th>
+                            <th scope="col" class="bg-primary text-white">Lớp đang học</th>
+                            <th scope="col" class="bg-primary text-white">Trạng thái lớp</th>
+                            <th scope="col" class="bg-primary text-white">Trạng thái học phí</th>
+                            <th scope="col" class="bg-primary text-white">Trạng thái học phí</th>
+                            <th scope="col" class="bg-primary text-white">Trạng thái học phí</th>
+                            <th scope="col" class="bg-primary text-white">Trạng thái học phí</th>
+                            <th scope="col" class="bg-primary text-white">Trạng thái học phí</th>
+                            <th scope="col" class="bg-primary text-white">Trạng thái học phí</th>
+                            <th scope="col" class="bg-primary text-white">Trạng thái học phí</th>
+                            <th scope="col" class="bg-primary text-white">Hành động</th>
                         </tr>
                         </thead>
-                        <tbody style="height: 180px">
-
-                        @foreach($students as $key => $student)
-                            <tr>
-                                <td class="text-primary h6">{{$key}}</td>
-                                <td>
-                                    <a class="h6 text-primary" href="">
-                                        {{$student->code}}
-                                    </a>
-                                </td>
-                                <td>{{$student->name}}</td>
-                                <td>{{$student->phone}}</td>
-                                <td>{{$student->parent}}</td>
-                                <td>{{$student->staff}}</td>
-                                <td>{{$student->grade}}</td>
-                                <td>{{$student->gradeStatus}}</td>
-                                <td>{{$student->invoiceStatus}}</td>
-                                <td>
-                                    <div class="dropdown d-inline-block">
-                                        <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ri-more-fill align-middle"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a href="#!" class="dropdown-item"><i
-                                                        class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
-                                            </li>
-                                            <li><a class="dropdown-item edit-item-btn"
-                                                   href="{{route("backend.students.edit",['id'=>$student->id])}}"><i
-                                                        class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                    Sửa</a></li>
-                                            <li>
-                                                <a class="dropdown-item remove-item-btn" data-bs-toggle="modal"
-                                                   data-bs-target="#delete-{{$student->id}}">
-                                                    <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                                    Xóa
-                                                </a>
-                                                @push("crud_modal")
-                                                    @include("layouts.inc.deleteModal",["id"=>$student->id])
-                                                @endpush
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
                     </table>
                 </div><!-- end card-body -->
             </div><!-- end card -->
@@ -115,5 +73,71 @@
         <!-- end col -->
     </div>
 @endsection
-@push("crud_scripts")
-@endpush
+@section("custom_scripts")
+    <script>
+        $(document).ready(function () {
+            const query = window.location.search;
+            const urlParams = new URLSearchParams(query);
+            const name = urlParams.get("name")
+            const code = urlParams.get("code")
+            const phone = urlParams.get("phone")
+            $('#crud_table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{route("backend.students.index")}}",
+                    data: {
+                        name: name,
+                        code: code,
+                        phone: phone
+                    }
+                },
+                scrollY: "60vh",
+                scrollX: true,
+                paging: true,
+                scrollCollapse: true,
+                fixedColumns: {
+                    left: 2
+                },
+                searchable: false,
+                minWidth:"200px",
+                columns: [
+                    {data: 'code', name: "Mã HS"},
+                    {data: 'name', name: "Tên học sinh"},
+                    {data: 'phone', name: "Số điện thoại"},
+                    {data: 'parent', name: "Phụ huynh"},
+                    {data: 'staff', name: "Nhân viên"},
+                    {data: 'grade', name: "Lớp đang học"},
+                    {data: 'gradeStatus', name: "Trạng thái lớp"},
+                    {data: 'invoiceStatus', name: "Trạng thái học phí"},
+                    {data: 'invoiceStatus', name: "Trạng thái học phí"},
+                    {data: 'invoiceStatus', name: "Trạng thái học phí"},
+                    {data: 'invoiceStatus', name: "Trạng thái học phí"},
+                    {data: 'invoiceStatus', name: "Trạng thái học phí"},
+                    {data: 'invoiceStatus', name: "Trạng thái học phí"},
+                    {data: 'invoiceStatus', name: "Trạng thái học phí"},
+                    {data: 'action', name: "Hành động"},
+                ],
+                "language": {
+                    "sProcessing": "Đang load",
+                    "sLengthMenu": "Xem _MENU_ hàng dữ liệu",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Không có dữ liệu phù hợp",
+                    "sInfo": "Hiển thị từ dòng thứ _START_ đến dòng thứ _END_ (trong tổng số _TOTAL_ hàng dữ liệu)",
+                    "sInfoEmpty": "Không có dữ liệu phù hợp",
+                    "sSearch": "Tìm kiếm dữ liệu:",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Trang đầu",
+                        "sLast": "Trang cuối",
+                        "sNext": ">",
+                        "sPrevious": "<"
+                    },
+                }
+            });
+        })
+    </script>
+    <style>
+        table th { min-width: 120px; }
+    </style>
+@endsection

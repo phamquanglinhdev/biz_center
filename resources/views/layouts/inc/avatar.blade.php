@@ -1,5 +1,6 @@
 <div class="mt-4 mt-md-0">
     <img class="rounded-circle avatar-xl" id="preview-{{$name}}" alt="200x200" src="" data-holder-rendered="true">
+    <input type="hidden" id="real-{{$name}}" name="{{$name}}">
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.1.0/cropper.css"/>
 <style>
@@ -18,7 +19,7 @@
 </style>
 <div class="input-group">
     <label class="input-group-text" for="inputGroupFile01">Tải lên</label>
-    <input type="file" id="upload-{{$name}}" name="{{$name}}" class="form-control cropper-image">
+    <input type="file" id="upload-{{$name}}" class="form-control cropper-image">
 </div>
 
 <!-- Default Modals -->
@@ -101,6 +102,7 @@
                         let base64data = reader.result;
                         console.log(base64data)
                         document.getElementById("preview-{{$name}}").src=base64data
+                        document.getElementById("real-{{$name}}").value=base64data
                     };
                 });
 

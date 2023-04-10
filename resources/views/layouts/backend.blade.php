@@ -933,7 +933,7 @@
 <script src="{{asset("assets/js/app.js")}}"></script>
 <script>
     window.onload = function () {
-        $(".dataTables_scrollBody").show()
+        $("#crud_table").show()
         $("#wait-crud-table").hide()
     }
 </script>

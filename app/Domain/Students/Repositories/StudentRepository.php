@@ -22,6 +22,23 @@ class StudentRepository implements StudentRepositoryInterface
         $this->model = $model;
     }
 
+    public function studentToTable($filter = [])
+    {
+        $query = $this->model;
+        if (Arr::exists($filter, "code")) {
+            $query = $query->where("code", "like", "%" . $filter["code"] . "%");
+        }
+        if (Arr::exists($filter, "name")) {
+            $query = $query->where("name", "like", "%" . $filter["name"] . "%");
+        }
+        if (Arr::exists($filter, "phone")) {
+            $query = $query->where("phone", "like", "%" . $filter["phone"] . "%");
+        }
+        if (Arr::exists($filter, "parent")) {
+            $query = $query->where("phone", "like", "%" . $filter["phone"] . "%");
+        }
+        return $query->orderBy("created_at", "ASC")->get();
+    }
 
     public function listAllStudent($orderBy = "created_at", $direction = "ASC", $perPage = 15)
     {
@@ -41,7 +58,7 @@ class StudentRepository implements StudentRepositoryInterface
     public function createStudent(StudentDto $studentDto)
     {
         $this->model->create($studentDto->toArray());
-        return redirect()->route("backend.student.index");
+        return redirect()->route("backend.students.index");
     }
 
     public function updateStudent(int $id, StudentDto $studentDto)
@@ -50,31 +67,14 @@ class StudentRepository implements StudentRepositoryInterface
         return redirect()->route("backend.students.index");
     }
 
-    public function deleteStudent(int $id): void
+    public function deleteStudent(int $id)
     {
-        $this->model->delete($id);
+        $this->model->destroy($id);
+        return redirect()->route("backend.students.index")->with("success", "Xóa thành công");
     }
 
     public function findById($id)
     {
         return $this->model->where("id", $id)->first();
-    }
-
-    public function studentToTable($page = 0, $filter = [])
-    {
-        $query = $this->model;
-        if (Arr::exists($filter, "code")) {
-            $query = $query->where("code", "like", "%" . $filter["code"] . "%");
-        }
-        if (Arr::exists($filter, "name")) {
-            $query = $query->where("name", "like", "%" . $filter["name"] . "%");
-        }
-        if (Arr::exists($filter, "phone")) {
-            $query = $query->where("phone", "like", "%" . $filter["phone"] . "%");
-        }
-        if (Arr::exists($filter, "parent")) {
-            $query = $query->where("phone", "like", "%" . $filter["phone"] . "%");
-        }
-        return $query->get();
     }
 }

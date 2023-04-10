@@ -1,8 +1,8 @@
 @extends("layouts.backend")
 @push("crud_styles")
     <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.2.2/css/fixedColumns.bootstrap5.min.css">
 
@@ -19,10 +19,21 @@
         </div>
     </div>
     @yield("table")
+    <button id="wait-crud-table" class="btn btn-outline-primary btn-load">
+                                                    <span class="d-flex align-items-center">
+                                                        <span class="spinner-border flex-shrink-0" role="status">
+                                                            <span class="visually-hidden">Đang tải...</span>
+                                                        </span>
+                                                        <span class="flex-grow-1 ms-2">
+                                                            Đang tải...
+                                                        </span>
+                                                    </span>
+    </button>
+    @stack("crud_modal")
 @endsection
-
 @push("crud_scripts")
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <!--datatable js-->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -40,6 +51,8 @@
             $('#crud_table').DataTable({
                 scrollY: "60vh",
                 scrollX: true,
+                paging: true,
+                lazy: true,
                 scrollCollapse: true,
                 fixedColumns: {
                     left: {{$fixColumn??0}},
@@ -61,11 +74,11 @@
                     },
                 }
             });
-            $(".dataTables_scrollHeadInner").css("width","{{$tableWidth??"100%"}}")
-            $(".table").css("width","{{$tableWidth??"100%"}}")
-            document.body.addEventListener("click", function(e) {
-                $(".dataTables_scrollHeadInner").css("width","{{$tableWidth??"100%"}}")
-                $(".table").css("width","{{$tableWidth??"100%"}}")
+            $(".dataTables_scrollHeadInner").css("width", "{{$tableWidth??"100%"}}")
+            $(".table").css("width", "{{$tableWidth??"100%"}}")
+            document.body.addEventListener("click", function (e) {
+                $(".dataTables_scrollHeadInner").css("width", "{{$tableWidth??"100%"}}")
+                $(".table").css("width", "{{$tableWidth??"100%"}}")
             })
         })
     </script>

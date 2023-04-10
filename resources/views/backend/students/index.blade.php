@@ -48,7 +48,8 @@
                 <div class="card-body">
                     <table class="table table-striped justify-content-around" id="crud_table">
                         <thead class="bg-primary text-white">
-                        <tr >
+                        <tr>
+                            <th scope="col" class="bg-primary">STT</th>
                             <th scope="col" class="bg-primary">Mã học sinh</th>
                             <th scope="col" class="bg-primary">Tên học sinh</th>
                             <th scope="col" class="bg-primary">Số điện thoại</th>
@@ -62,8 +63,9 @@
                         </thead>
                         <tbody style="height: 180px">
 
-                        @foreach($students as $student)
+                        @foreach($students as $key => $student)
                             <tr>
+                                <td class="text-primary h6">{{$key}}</td>
                                 <td>
                                     <a class="h6 text-primary" href="">
                                         {{$student->code}}
@@ -91,10 +93,14 @@
                                                         class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                     Sửa</a></li>
                                             <li>
-                                                <a class="dropdown-item remove-item-btn">
+                                                <a class="dropdown-item remove-item-btn" data-bs-toggle="modal"
+                                                   data-bs-target="#delete-{{$student->id}}">
                                                     <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                                    Delete
+                                                    Xóa
                                                 </a>
+                                                @push("crud_modal")
+                                                    @include("layouts.inc.deleteModal",["id"=>$student->id])
+                                                @endpush
                                             </li>
                                         </ul>
                                     </div>

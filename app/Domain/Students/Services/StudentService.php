@@ -6,6 +6,7 @@ use App\Domain\Students\DTOs\StudentDto;
 use App\Domain\Students\DTOs\ListStudent;
 use App\Domain\Students\DTOs\StudentShowDto;
 use App\Domain\Students\Repositories\StudentRepositoryInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 
@@ -51,13 +52,13 @@ class StudentService
             }
         }
 
-        $this->studentRepository->createStudent($studentDto);
+        return $this->studentRepository->createStudent($studentDto);
     }
 
-    public function studentTable($page = 0, $input = []): array
+    public function studentTable($input = []): array
     {
         $lists = [];
-        $students = $this->studentRepository->studentToTable($page, $input);
+        $students = $this->studentRepository->studentToTable($input);
         foreach ($students as $student) {
             $studentToList = new ListStudent();
             $studentToList->setId($student->id);
@@ -110,6 +111,14 @@ class StudentService
         }
 //        dd($studentDto);
         return $this->studentRepository->updateStudent($id, $studentDto);
+    }
+
+    public function deleteStudent($id)
+    {
+        if (!$id) {
+            return redirect()->back()->withErrors(["message" => 'Xóa thất bại']);
+        }
+        return $this->studentRepository->deleteStudent($id);
     }
 
 }

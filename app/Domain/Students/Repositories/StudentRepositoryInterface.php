@@ -21,5 +21,5 @@ interface StudentRepositoryInterface
 
     public function deleteStudent(int $id);
 
-    public function studentToTable($page = 0, $filter = []);
+    public function studentToTable($filter = []);
 }

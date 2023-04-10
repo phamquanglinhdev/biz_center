@@ -18,7 +18,11 @@
     <link href="{{asset("assets/css/icons.min.css")}}" rel="stylesheet" type="text/css"/>
     <!-- App Css-->
     <link href="{{asset("assets/css/app.min.css")}}" rel="stylesheet" type="text/css"/>
-
+    <style>
+        #crud_table{
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -927,6 +931,11 @@
 @stack("crud_scripts")
 <!-- App js -->
 <script src="{{asset("assets/js/app.js")}}"></script>
-
+<script>
+    window.onload = function () {
+        $(".dataTables_scrollBody").show()
+        $("#wait-crud-table").hide()
+    }
+</script>
 </body>
 </html>

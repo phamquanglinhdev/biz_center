@@ -30,10 +30,11 @@ class StudentSeeder extends Seeder
 //        $table->timestamp('email_verified_at')->nullable();
 //        $table->string("role");
 //        $table->string('password');
-        for ($i = 1; $i < 40; $i++) {
+        for ($i = 1; $i < 4000; $i++) {
             $student = [
                 'code' => 'HS' . $i,
-                'name' => fake("vi_VN")->name,
+                'name' => fake("vi_VN")->lastName . " " . fake("vi_VN")->lastName,
+                'parent' => fake("vi_VN")->lastName . " " . fake("vi_VN")->lastName,
                 'email' => fake("vi_VN")->email,
                 'birthday' => Carbon::now(),
                 'phone' => fake()->phoneNumber,

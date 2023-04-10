@@ -1,99 +1,114 @@
-<div class="avatar-wrapper">
-    <img class="profile-pic" id="profile-pic" src="{{$value??""}}"/>
-    <div class="upload-button-{{$name}}">
-        <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-    </div>
-    <input class="file-upload-{{$name}}" type="file" accept="image/*"/>
-    <input name="{{$name}}" id="{{$name}}">
-</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.1.0/cropper.css"/>
 <style>
-    .avatar-wrapper {
-        position: relative;
-        height: 200px;
-        width: 200px;
-        margin: 50px auto;
-        border-radius: 50%;
+    .cropper-modal img {
+        display: block;
+        max-width: 100%;
+    }
+
+    .preview {
         overflow: hidden;
-        box-shadow: 1px 1px 15px -5px black;
-        transition: all 0.3s ease;
+        width: 160px;
+        height: 160px;
+        margin: 10px;
+        border: 1px solid red;
     }
-
-    .avatar-wrapper:hover {
-        transform: scale(1.05);
-        cursor: pointer;
-    }
-
-    .avatar-wrapper:hover .profile-pic {
-        opacity: 0.5;
-    }
-
-    .avatar-wrapper .profile-pic {
-        height: 100%;
-        width: 100%;
-        transition: all 0.3s ease;
-    }
-
-    .avatar-wrapper .profile-pic:after {
-        font-family: FontAwesome;
-        content: "\f007";
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        font-size: 190px;
-        background: #ecf0f1;
-        color: #34495e;
-        text-align: center;
-    }
-
-    .avatar-wrapper .upload-button-{{$name}}   {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-    }
-
-    .avatar-wrapper .upload-button-{{$name}} .fa-arrow-circle-up {
-        position: absolute;
-        font-size: 234px;
-        top: -17px;
-        left: 0;
-        text-align: center;
-        opacity: 0;
-        transition: all 0.3s ease;
-        color: #34495e;
-    }
-
-    .avatar-wrapper .upload-button-{{$name}}:hover .fa-arrow-circle-up {
-        opacity: 0.9;
-    }
-
 </style>
+<div class="input-group">
+    <label class="input-group-text" for="inputGroupFile01">Tải lên</label>
+    <input type="file" id="{{$name}}" name="{{$name}}" class="form-control cropper-image">
+</div>
+
+<!-- Default Modals -->
+<div id="modal" class="modal fade" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Cắt ảnh</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+            </div>
+            <div class="modal-body">
+                <div class="img-container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!--  default image where we will set the src via jquery-->
+                            <img id="{{$name}}">
+                        </div>
+                        <div class="col-md-4">
+                            <div class="preview"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="crop">Crop</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @push("crud_scripts")
+    <script src="https://unpkg.com/jquery@3/dist/jquery.slim.min.js"></script>
+    <script src="https://fengyuanchen.github.io/cropperjs/js/cropper.js"></script>
     <script>
-        $(document).ready(function () {
-
-            const readURL = function (input) {
-                if (input.files && input.files[0]) {
-                    const reader = new FileReader();
-
+        var bs_modal = $('#modal');
+        var image = document.getElementById('{{$name}}');
+        var cropper, reader, file;
+        $("body").on("change", ".cropper-image", function (e) {
+            const files = e.target.files;
+            const done = function (url) {
+                image.src = url;
+                bs_modal.modal('show');
+            };
+            if (files && files.length > 0) {
+                file = files[0];
+                if (URL) {
+                    done(URL.createObjectURL(file));
+                } else if (FileReader) {
+                    reader = new FileReader();
                     reader.onload = function (e) {
-                        $('.profile-pic').attr('src', e.target.result);
-                        $('#{{$name}}').attr('src', e.target.result);
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
+                        console.log(e)
+                    };
+                    reader.readAsDataURL(file);
                 }
             }
-            $(".file-upload-{{$name}}").on('change', function () {
-                readURL(this);
-                const img = document.getElementById("profile-pic")
+        });
+
+        bs_modal.on('shown.bs.modal', function () {
+            cropper = new Cropper(image, {
+                aspectRatio: 1,
+                viewMode: 3,
+                preview: '.preview'
             });
-            $(".upload-button-{{$name}}").on('click', function () {
-                $(".file-upload-{{$name}}").click();
+        }).on('hidden.bs.modal', function () {
+            cropper.destroy();
+            cropper = null;
+        });
+
+        $("#crop").click(function () {
+            canvas = cropper.getCroppedCanvas({
+                width: 160,
+                height: 160,
+            });
+
+            canvas.toBlob(function (blob) {
+                url = URL.createObjectURL(blob);
+                var reader = new FileReader();
+                reader.readAsDataURL(blob);
+                reader.onloadend = function () {
+                    var base64data = reader.result;
+
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        url: "upload.php",
+                        data: {image: base64data},
+                        success: function (data) {
+                            bs_modal.modal('hide');
+                            alert("success upload image");
+                        }
+                    });
+                };
             });
         });
+
     </script>
 @endpush

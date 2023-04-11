@@ -16,11 +16,22 @@
         <div class="row">
             <div class="col-md-9 col-12">
                 <div class="card">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb p-3 py-2 mb-0">
+                            <li class="breadcrumb-item"><a href="#"><i class="ri-home-5-fill"></i></a></li>
+                            <li class="breadcrumb-item"><a class="h6 text-primary" href="{{route("backend.students.index")}}">Học sinh</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa thông tin học sinh {{$old->name}}</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="col-md-9 col-12">
+                <div class="card">
                     <div class="card-body">
                         <form action="{{route("backend.students.update")}}" method="post">
                             @csrf
                             @method("PUT")
-                            @include("layouts.inc.avatar",['name'=>'avatar'])
+                            @include("layouts.inc.avatar",['name'=>'avatar','old'=>$old,'label'=>'Ảnh đại diện'])
                             <input hidden name="id" value="{{$old->id}}">
                             <div class="row">
                                 <div class="col-md-6 mb-3">

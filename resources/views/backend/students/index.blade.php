@@ -23,7 +23,6 @@
         <button class="btn btn-primary w-100" type="submit">
             <i class="la la-filter"></i> Lọc
         </button>
-
     </form>
 @endsection
 @section("table")
@@ -46,7 +45,7 @@
                 </div><!-- end card header -->
 
                 <div class="card-body bg-white">
-                    <table class="border bg-white table table-striped justify-content-around" id="crud_table">
+                    <table class="border table table-striped table-hover nowrap rounded shadow-xs border-xs mt-2" id="crud_table">
                         <thead>
                         <tr class="bg-primary text-white">
                             <th scope="col" class="bg-primary text-white">Mã học sinh</th>
@@ -80,68 +79,19 @@
         <!-- end col -->
     </div>
 @endsection
-@section("custom_scripts")
+@section("table_init")
     <script>
-        $(document).ready(function () {
-            const query = window.location.search;
-            const urlParams = new URLSearchParams(query);
-            const name = urlParams.get("name")
-            const code = urlParams.get("code")
-            const phone = urlParams.get("phone")
-            $('#crud_table').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "{{route("backend.students.index")}}",
-                    data: {
-                        name: name,
-                        code: code,
-                        phone: phone
-                    }
-                },
-                scrollY: "60vh",
-                scrollX: true,
-                paging: true,
-                scrollCollapse: true,
-                fixedColumns: {
-                    left: 2,
-                    right: 0,
-                },
-                searching: false,
-                minWidth: "200px",
-                columns: [
-                    {data: 'code', name: "Mã HS"},
-                    {data: 'name', name: "Tên học sinh"},
-                    {data: 'phone', name: "Số điện thoại"},
-                    {data: 'parent', name: "Phụ huynh"},
-                    {data: 'staff', name: "Nhân viên"},
-                    {data: 'grade', name: "Lớp đang học"},
-                    {data: 'gradeStatus', name: "Trạng thái lớp"},
-                    {data: 'invoiceStatus', name: "Trạng thái học phí"},
-                    {data: 'action', name: "Hành động"},
-                ],
-                "language": {
-                    "sProcessing": "Đang load",
-                    "sLengthMenu": "Xem _MENU_ hàng dữ liệu",
-                    "sZeroRecords": "No se encontraron resultados",
-                    "sEmptyTable": "Không có dữ liệu phù hợp",
-                    "sInfo": "Hiển thị từ dòng thứ _START_ đến dòng thứ _END_ (trong tổng số _TOTAL_ hàng dữ liệu)",
-                    "sInfoEmpty": "Không có dữ liệu phù hợp",
-                    "sSearch": "Tìm kiếm dữ liệu:",
-                    "sLoadingRecords": "Cargando...",
-                    "oPaginate": {
-                        "sFirst": "Trang đầu",
-                        "sLast": "Trang cuối",
-                        "sNext": ">",
-                        "sPrevious": "<"
-                    },
-                }
-            });
-        })
+        const tableCols = [
+            {data: 'code', name: "Mã HS"},
+            {data: 'name', name: "Tên học sinh"},
+            {data: 'phone', name: "Số điện thoại"},
+            {data: 'parent', name: "Phụ huynh"},
+            {data: 'staff', name: "Nhân viên"},
+            {data: 'grade', name: "Lớp đang học"},
+            {data: 'gradeStatus', name: "Trạng thái lớp"},
+            {data: 'invoiceStatus', name: "Trạng thái học phí"},
+            {data: 'action', name: "Hành động"},
+        ]
     </script>
-    <style>
-        table th {
-            min-width: 9em;
-        }
-    </style>
+
 @endsection

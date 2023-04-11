@@ -19,32 +19,113 @@
         </div>
     </div>
     @yield("table")
-    <button id="wait-crud-table" class="btn btn-outline-primary btn-load">
-                                                    <span class="d-flex align-items-center">
-                                                        <span class="spinner-border flex-shrink-0" role="status">
-                                                            <span class="visually-hidden">Đang tải...</span>
-                                                        </span>
-                                                        <span class="flex-grow-1 ms-2">
-                                                            Đang tải...
-                                                        </span>
-                                                    </span>
-    </button>
     @stack("crud_modal")
 @endsection
 @push("crud_scripts")
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!--datatable js-->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-{{--    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>--}}
-{{--    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>--}}
-{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>--}}
-{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>--}}
-{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>--}}
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
+
+    @yield("table_init")
+    <script>
+        $(document).ready(function () {
+            const query = window.location.search;
+            const urlParams = new URLSearchParams(query);
+            let filterParams = Object.fromEntries(urlParams);
+            let table = $('#crud_table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{route(Request::route()->getName())}}",
+                    data: filterParams
+                },
+                scrollY: "60vh",
+                scrollX: true,
+                paging: true,
+                scrollCollapse: true,
+                fixedColumns: {
+                    left: 2,
+                    right: 0,
+                },
+                buttons: [
+                    {
+                        extend: 'copyHtml5',
+                        exportOptions: {
+                            columns: 'th:not(:last-child)',
+                        }
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                            columns: 'th:not(:last-child)',
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: 'th:not(:last-child)',
+                        }
+                    },
+                ],
+                aLengthMenu: [
+                    [10, 25, 50, 100, 200, -1],
+                    [10, 25, 50, 100, 200, "Tất cả"]
+                ],
+                searching: false,
+                columns: tableCols,
+                responsive: false,
+                dom:
+                    "<'row hidden'<'col-sm-6'i><'col-sm-6 d-print-none'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row mt-2 d-print-none '<'col-sm-12 col-md-4'l><'col-sm-0 col-md-4 text-center'B><'col-sm-12 col-md-4 'p>>",
+                language: {
+                    "emptyTable": "Không có dữ liêu",
+                    "info": "Từ _START_ đến _END_ of _TOTAL_ hàng",
+                    "infoEmpty": "Không có hàng",
+                    "infoFiltered": "(lọc từ _MAX_ tổng số dòng)",
+                    "infoPostFix": ".",
+                    "thousands": ",",
+                    "lengthMenu": "_MENU_ mục trên mỗi trang",
+                    "loadingRecords": "Loading...",
+                    "processing": "<img src='{{asset("assets/images/svg/spinner.svg")}}' alt='Processing...'>",
+                    "search": "_INPUT_",
+                    "searchPlaceholder": "Tìm kiếm...",
+                    "zeroRecords": "Không tìm thấy dữ liệu",
+                    "paginate": {
+                        "first": "Đầu tiên",
+                        "last": "Cuối",
+                        "next": ">",
+                        "previous": "<"
+                    },
+                    "aria": {
+                        "sortAscending": ": activate to sort column ascending",
+                        "sortDescending": ": activate to sort column descending"
+                    },
+                }
+            });
+            $("#crud_table_processing").removeClass("card")
+            $(".d-print-none").css("display", "inline-flex")
+
+        })
+
+    </script>
+    <style>
+        table th {
+            min-width: 9em;
+        }
+        div.dataTables_wrapper div.dataTables_paginate{
+            margin-left:5em ;
+        }
+    </style>
     @yield("custom_scripts")
 @endpush

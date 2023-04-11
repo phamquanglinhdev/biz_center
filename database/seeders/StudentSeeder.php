@@ -17,7 +17,7 @@ class StudentSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i < 4000; $i++) {
+        for ($i = 1; $i < 500; $i++) {
             $student = [
                 'code' => 'HS' . $i,
                 'name' => fake("vi_VN")->lastName . " " . fake("vi_VN")->lastName,
@@ -26,7 +26,6 @@ class StudentSeeder extends Seeder
                 'birthday' => Carbon::now(),
                 'phone' => fake("vi_VN")->phoneNumber,
                 'address' => fake("vi_VN")->address,
-                'avatar' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png',
                 'role' => 'student',
                 'password' => Hash::make("12345")
             ];

@@ -9,17 +9,26 @@
                 <li class="breadcrumb-item active">Basic Elements</li>
             </ol>
         </div>
-
     </div>
     <div class="container-fluid">
-
         <div class="row">
+            <div class="col-md-9 col-12">
+                <div class="card">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb p-3 py-2 mb-0">
+                            <li class="breadcrumb-item"><a href="#"><i class="ri-home-5-fill"></i></a></li>
+                            <li class="breadcrumb-item"><a class="h6 text-primary" href="{{route("backend.students.index")}}">Học sinh</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Thêm học sinh mới</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
             <div class="col-md-9 col-12">
                 <div class="card">
                     <div class="card-body">
                         <form action="{{route("backend.students.store")}}" method="post">
                             @csrf
-                            @include("layouts.inc.avatar",['name'=>'avatar'])
+                            @include("layouts.inc.avatar",['name'=>'avatar','label'=>'Ảnh đại diện'])
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="code" class="form-label">Mã học sinh</label>
@@ -91,7 +100,8 @@
                                                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/2560px-Flag_of_Vietnam.svg.png"
                                                 alt="flag img" height="20" class="country-flagimg rounded"><span
                                                 class="ms-2 country-codeno">+ 84</span></button>
-                                        <input name="parent_phone" type="text" class="form-control rounded-end flag-input"
+                                        <input name="parent_phone" type="text"
+                                               class="form-control rounded-end flag-input"
                                                value=""
                                                placeholder="Nhập số điện thoại"
                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">

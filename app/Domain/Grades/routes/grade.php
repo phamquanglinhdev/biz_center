@@ -1,11 +1,10 @@
 <?php
 
-use App\Domain\Students\Controllers\StudentController;
+use App\Domain\Grades\Controllers\GradeController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix("/admin")->group(function () {
-    Route::resource("students", StudentController::class, [
+    Route::resource("grades", GradeController::class, [
         'as' => 'backend'
     ]);
-
 });

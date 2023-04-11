@@ -81,6 +81,7 @@
 @endsection
 @section("table_init")
     <script>
+        const fixColumnsLeft = 2
         const tableCols = [
             {data: 'code', name: "Mã HS"},
             {data: 'name', name: "Tên học sinh"},

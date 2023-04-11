@@ -14,10 +14,10 @@
                 </div>
                 <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
                     <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Đóng</button>
-                    <form method="post" action="{{route("backend.students.destroy")}}">
+                    <form method="post" action="{{route("backend.".$entity.".destroy",$id)}}">
                         @csrf
                         @method("delete")
-                        <input name="id" value="{{$id}}" hidden>
+                        <input name="{{$entity}}" value="{{$id}}" hidden>
                         <button type="submit" class="btn w-sm btn-danger " id="delete-record">Xóa</button>
                     </form>
                 </div>

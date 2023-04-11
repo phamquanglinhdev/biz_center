@@ -54,7 +54,7 @@
                 paging: true,
                 scrollCollapse: true,
                 fixedColumns: {
-                    left: 2,
+                    left: fixColumnsLeft,
                     right: 0,
                 },
                 buttons: [
@@ -123,8 +123,9 @@
         table th {
             min-width: 9em;
         }
-        div.dataTables_wrapper div.dataTables_paginate{
-            margin-left:5em ;
+
+        div.dataTables_wrapper div.dataTables_paginate {
+            margin-left: 5em;
         }
     </style>
     @yield("custom_scripts")

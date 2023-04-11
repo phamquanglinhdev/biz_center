@@ -5,6 +5,7 @@ namespace App\Domain\Students\Repositories;
 use App\Domain\Students\DTOs\StudentDto;
 use App\Domain\Students\Entites\Student;
 use App\Domain\Students\Filters\StudentFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
@@ -12,14 +13,14 @@ use Illuminate\Support\Facades\DB;
 
 class StudentRepository implements StudentRepositoryInterface
 {
-    protected Student $model;
+    protected Builder $model;
 
     /**
      * @param Student $model
      */
     public function __construct(Student $model)
     {
-        $this->model = $model;
+        $this->model = $model->where("role", "student");
     }
 
     public function studentToTable($filter = [])

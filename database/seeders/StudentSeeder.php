@@ -17,8 +17,8 @@ class StudentSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i < 500; $i++) {
-            $student = [
+        for ($i = 1; $i < 200; $i++) {
+            DB::table("users")->insert([
                 'code' => 'HS' . $i,
                 'name' => fake("vi_VN")->lastName . " " . fake("vi_VN")->lastName,
                 'parent' => fake("vi_VN")->lastName . " " . fake("vi_VN")->lastName,
@@ -28,8 +28,7 @@ class StudentSeeder extends Seeder
                 'address' => fake("vi_VN")->address,
                 'role' => 'student',
                 'password' => Hash::make("12345")
-            ];
-            Student::create($student);
+            ]);
         }
     }
 }

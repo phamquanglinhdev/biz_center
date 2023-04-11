@@ -82,6 +82,7 @@
                     [10, 25, 50, 100, 200, "Tất cả"]
                 ],
                 searching: false,
+                ordering: false,
                 columns: tableCols,
                 responsive: false,
                 dom:

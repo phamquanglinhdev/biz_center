@@ -28,11 +28,10 @@
             <div class="col-md-9 col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{route("backend.students.update")}}" method="post">
+                        <form action="{{route("backend.students.update",$old->id)}}" method="post">
                             @csrf
                             @method("PUT")
                             @include("layouts.inc.avatar",['name'=>'avatar','old'=>$old,'label'=>'Ảnh đại diện'])
-                            <input hidden name="id" value="{{$old->id}}">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="code" class="form-label">Mã học sinh</label>

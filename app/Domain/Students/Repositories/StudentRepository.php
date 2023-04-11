@@ -41,7 +41,7 @@ class StudentRepository implements StudentRepositoryInterface
         return $query->orderBy("created_at", "DESC")->get();
     }
 
-    public function listAllStudent($orderBy = "created_at", $direction = "ASC", $perPage = 15)
+    public function listAllStudent($orderBy = "created_at", $direction = "DESC", $perPage = 15)
     {
         return $this->model->orderBy($orderBy, $direction)->pagination($perPage);
     }
@@ -70,7 +70,7 @@ class StudentRepository implements StudentRepositoryInterface
 
     public function deleteStudent(int $id)
     {
-        $this->model->destroy($id);
+        $this->model->find($id)->delete();
         return redirect()->route("backend.students.index")->with("success", "Xóa thành công");
     }
 

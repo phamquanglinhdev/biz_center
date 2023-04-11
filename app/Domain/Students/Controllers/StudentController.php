@@ -52,14 +52,14 @@ class StudentController extends Controller
         return view("backend.students.edit", ['old' => $old]);
     }
 
-    public function update(Request $request)
+    public function update(Request $request, string $id)
     {
 //        dd($request->input());
-        return $this->studentService->updateStudent($request->except("_token", "_method"));
+        return $this->studentService->updateStudent($request->except("_token", "_method"), $id);
     }
 
-    public function destroy(Request $request)
+    public function destroy(string $id)
     {
-        return $this->studentService->deleteStudent($request->id ?? null);
+        return $this->studentService->deleteStudent($id);
     }
 }

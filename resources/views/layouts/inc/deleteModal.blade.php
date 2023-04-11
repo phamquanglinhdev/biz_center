@@ -17,7 +17,6 @@
                     <form method="post" action="{{route("backend.".$entity.".destroy",$id)}}">
                         @csrf
                         @method("delete")
-                        <input name="{{$entity}}" value="{{$id}}" hidden>
                         <button type="submit" class="btn w-sm btn-danger " id="delete-record">Xóa</button>
                     </form>
                 </div>

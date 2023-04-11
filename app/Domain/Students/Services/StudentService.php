@@ -87,7 +87,7 @@ class StudentService
 
     }
 
-    public function updateStudent($attributes)
+    public function updateStudent($attributes,$id)
     {
         $validator = Validator::make($attributes, [
             'name' => 'bail|required|max:255',
@@ -106,8 +106,6 @@ class StudentService
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors());
         }
-        $id = $attributes["id"];
-        unset($attributes["id"]);
         $studentDto = new StudentDto();
         foreach ($attributes as $propertyName => $value) {
             if ($value) {
@@ -120,9 +118,6 @@ class StudentService
 
     public function deleteStudent($id)
     {
-        if (!$id) {
-            return redirect()->back()->withErrors(["message" => 'Xóa thất bại']);
-        }
         return $this->studentRepository->deleteStudent($id);
     }
 

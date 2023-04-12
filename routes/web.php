@@ -16,4 +16,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('backend.dashboard');
 });
-//Route::namespace("App\Domain\Students")->group(base_path('route\student.php'));
+//Route::namespace("App\Domain\Students")->group(base_path('routes\student.php'));

@@ -7,26 +7,31 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('grades', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->string("program");
+            $table->longText("program");
             $table->integer("time");
-            $table->integer("lessons");
-            $table->string("status");
             $table->longText("times")->nullable();
+            $table->integer("status");
+            $table->integer("disable")->default(0);
             $table->longText("thumbnail")->nullable();
+            $table->string("origin")->default("bizsoft");
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('grades');
     }

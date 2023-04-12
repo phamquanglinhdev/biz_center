@@ -94,7 +94,7 @@ class StudentService
             'code' => 'bail|required|max:10',
             'birthday' => 'bail|required',
             'phone' => 'bail|required',
-            'email' => 'bail|email|required',
+            'email' => 'bail|email|required|unique:users,email,'.$id,
         ], [
             'name.required' => 'Thiếu tên học sinh',
             'code.required' => 'Thiếu mã học sinh',

@@ -116,14 +116,22 @@
             });
             $("#crud_table_processing").removeClass("card")
             $(".d-print-none").css("display", "inline-flex")
-
+            $(window).resize(function () {
+                const width = $(".dataTables_scrollHead").width()
+                $("table").css("min-width",width*0.98)
+            })
+            $(".topnav-hamburger").click(function () {
+                const width = $(".dataTables_scrollHead").width()
+                $("table").css("min-width",width*0.98)
+            })
+            $(window).resize()
         })
 
     </script>
     <style>
-        table th {
-            min-width: 9em;
-        }
+        /*table th {*/
+        /*    min-width: 9em;*/
+        /*}*/
 
         div.dataTables_wrapper div.dataTables_paginate {
             margin-left: 5em;

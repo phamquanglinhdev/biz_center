@@ -18,9 +18,10 @@
         <div>
             <label class="label">{{$label}}</label>
         </div>
-        <img class="border-primary shadow-lg rounded-circle" style="width: 10rem;height: 10rem" id="preview-{{$name}}" alt="200x200"
+        <img class="border-primary shadow-lg rounded-circle" style="width: 10rem;height: 10rem" id="preview-{{$name}}"
+             alt="200x200"
              src="{{$old->avatar??asset("assets/images/img-blank.png")}}" data-holder-rendered="true">
-        <input type="hidden" id="real-{{$name}}" name="{{$name}}" value="{{$old->avatar}}">
+        <input type="hidden" id="real-{{$name}}" name="{{$name}}" value="{{$old->avatar??""}}">
     </div>
     <div class="col-md-6 d-none">
         <div class="input-group mb-3">

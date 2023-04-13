@@ -67,7 +67,7 @@ class StaffController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        return $this->staffService->updateStudent($id, $request->except("_token"));
+        return $this->staffService->updateStaff($id, $request->except("_token"));
     }
 
     /**

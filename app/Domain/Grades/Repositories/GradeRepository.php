@@ -3,7 +3,7 @@
 namespace App\Domain\Grades\Repositories;
 
 use App\Domain\Grades\Entities\Grade;
-use App\Domain\Grades\Interface\GradeRepositoryInterface;
+use App\Domain\Grades\Contract\GradeRepositoryInterface;
 
 class GradeRepository implements GradeRepositoryInterface
 {
@@ -24,7 +24,12 @@ class GradeRepository implements GradeRepositoryInterface
 
     public function getSingleGrade($id)
     {
-        // TODO: Implement getSingleGrade() method.
+        return $this->grade->where("id", $id)->firstOrFail();
+    }
+
+    public function createSingleGrade($attribute)
+    {
+        return $this->grade->create($attribute);
     }
 
     public function updateSingleGrade($id)
@@ -36,4 +41,5 @@ class GradeRepository implements GradeRepositoryInterface
     {
         // TODO: Implement deleteSingleGrade() method.
     }
+
 }

@@ -3,12 +3,14 @@
 namespace App\Domain\Grades\Services;
 
 use App\Common\EntryCrud;
-use App\Domain\Grades\Dtos\GradeCreateDto;
-use App\Domain\Grades\Entities\Grade;
-use App\Domain\Grades\Interface\GradeRepositoryInterface;
+use App\Domain\Grades\Contract\SupporterRepositoryInterface;
+use App\Domain\Grades\Contract\TeacherRepositoryInterface;
+use App\Domain\Grades\Contract\StudentRepositoryInterface;
+use App\Domain\Grades\Contract\GradeRepositoryInterface;
+use App\Domain\Grades\Contract\StaffRepositoryInterface;
 use App\Domain\Grades\DTOs\GradeListDto;
-use App\Domain\Staffs\Contract\StaffRepositoryInterface;
-use App\Domain\Students\Repositories\StudentRepositoryInterface;
+use App\Domain\Grades\Dtos\GradeStoreDto;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class GradeServices
@@ -16,17 +18,29 @@ class GradeServices
     private GradeRepositoryInterface $gradeRepository;
     private StaffRepositoryInterface $staffRepository;
     private StudentRepositoryInterface $studentRepository;
+    private TeacherRepositoryInterface $teacherRepository;
+    private SupporterRepositoryInterface $supporterRepository;
 
     /**
      * @param GradeRepositoryInterface $gradeRepository
      * @param StaffRepositoryInterface $staffRepository
      * @param StudentRepositoryInterface $studentRepository
+     * @param TeacherRepositoryInterface $teacherRepository
+     * @param SupporterRepositoryInterface $supporterRepository
      */
-    public function __construct(GradeRepositoryInterface $gradeRepository, StaffRepositoryInterface $staffRepository, StudentRepositoryInterface $studentRepository)
+    public function __construct(
+        GradeRepositoryInterface     $gradeRepository,
+        StaffRepositoryInterface     $staffRepository,
+        StudentRepositoryInterface   $studentRepository,
+        TeacherRepositoryInterface   $teacherRepository,
+        SupporterRepositoryInterface $supporterRepository
+    )
     {
         $this->gradeRepository = $gradeRepository;
         $this->staffRepository = $staffRepository;
         $this->studentRepository = $studentRepository;
+        $this->teacherRepository = $teacherRepository;
+        $this->supporterRepository = $supporterRepository;
     }
 
 
@@ -44,9 +58,11 @@ class GradeServices
             ->toJson();
     }
 
-    public function setupCreateOperation()
+    public function setupCreateOperation(): EntryCrud
     {
-        $staffs = $this->staffRepository->list()->pluck("name", "id")->toArray();
+        $staffs = $this->staffRepository->all()->pluck("name", "id")->toArray();
+        $teachers = $this->teacherRepository->all()->pluck("name", "id")->toArray();
+        $supporter = $this->supporterRepository->all()->pluck("name", "id")->toArray();
         $entry = new EntryCrud("grades", "Lớp học");
         $entry->addFiled([
             'name' => 'thumbnail',
@@ -89,14 +105,14 @@ class GradeServices
             'type' => 'select_relation',
             'label' => 'Giáo viên',
             'class' => 'col-md-6',
-            'data' => null,
+            'data' => $teachers,
         ]);
         $entry->addFiled([
             'name' => 'supporters',
             'type' => 'select_relation',
             'label' => 'Trợ giảng',
             'class' => 'col-md-6',
-            'data' => null,
+            'data' => $supporter,
         ]);
         $entry->addFiled([
             'name' => 'status',
@@ -110,5 +126,45 @@ class GradeServices
             ],
         ]);
         return $entry;
+    }
+
+    public function createNewGrade($attributes)
+    {
+        $validator = Validator::make($attributes, [
+            'name' => 'bail|required|max:255',
+            'program' => 'bail|required',
+            'time' => 'bail|required',
+            'lessons' => 'bail|required',
+            'status' => 'bail|required',
+        ], [
+            'name.required' => 'Thiếu tên lớp học',
+            'program.required' => 'Thiếu chương trình học',
+            'time.required' => 'Thiếu thời lượng',
+            'lessons.required' => 'Thiếu số buổi học',
+            'status.required' => 'Thiếu trạng thái lớp',
+        ]);
+        $attributes['status'] = (int)($attributes['status']);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors());
+        }
+        $dto = new GradeStoreDto();
+        foreach ($attributes as $propertyName => $value) {
+            try {
+
+            } catch (\Exception $exception) {
+
+            }
+            if ($value) {
+                $dto->setProperty($propertyName, $value);
+            }
+            $dto->setStatus($attributes['status']);
+        }
+        if ($grade = $this->gradeRepository->createSingleGrade($dto->toArray())) {
+            $this->staffRepository->createRelationGrade($grade->id, $attributes["staffs"] ?? []);
+            $this->teacherRepository->createRelationGrade($grade->id, $attributes["teachers"] ?? []);
+            $this->supporterRepository->createRelationGrade($grade->id, $attributes["supporter"] ?? []);
+        }
+        return redirect()->route("backend.grades.index")->with("success", "Thêm thành công");
+
     }
 }

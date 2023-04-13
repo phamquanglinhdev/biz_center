@@ -6,7 +6,11 @@
         @endif
         @if(!empty($field['data']))
             @foreach($field['data'] as $key => $value)
-                <option value="{{$key}}">{{$value}}
+                <option
+                    @if($field['value']??null==$key)
+                        selected
+                    @endif
+                    value="{{$key}}">{{$value}}
                 </option>
             @endforeach
         @endif

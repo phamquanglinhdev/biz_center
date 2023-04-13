@@ -24,7 +24,7 @@ class ListStudent
         $this->phone = $model->phone;
         $this->parent = $model->parent ?? "-";
         $this->avatar = $model->avatar ?? "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png";
-        $this->staff = "-";
+        $this->staff = $model->Staff()->first()->name ?? "-";
         $this->grade = "-";
         $this->gradeStatus = "Chưa học";
         $this->status = "Chưa học";

@@ -21,6 +21,15 @@ class StudentDto
     private string $parent_phone;
     private ?string $password;
     private string $role;
+    private string $staff_id;
+
+    /**
+     * @return string
+     */
+    public function getStaffId(): string
+    {
+        return $this->staff_id;
+    }
 
     public function __construct()
     {
@@ -210,6 +219,7 @@ class StudentDto
             'parent_phone' => $this->getParentPhone(),
             'avatar' => $this->getAvatar(),
             'role' => $this->role,
+            'staff_id' => $this->getStaffId()
         ];
         if ($this->password) {
             $array["password"] = Hash::make($this->password);

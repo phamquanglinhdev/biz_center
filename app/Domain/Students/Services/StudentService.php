@@ -28,6 +28,22 @@ class StudentService
         $this->staffRepository = $staffRepository;
     }
 
+    public function studentTable($input = [])
+    {
+        $lists = [];
+        $students = $this->studentRepository->studentToTable($input);
+        foreach ($students as $student) {
+            $studentToList = new ListStudent($student);
+            $lists[] = $studentToList;
+        }
+        return DataTables::collection($lists)
+            ->addColumn("action", "I")
+            ->editColumn("name", "backend.students.columns.name")
+            ->editColumn("action", "backend.students.columns.action")
+            ->rawColumns(["name", "action"])
+            ->toJson();
+
+    }
 
     public function createStudent(array $attributes)
     {
@@ -54,32 +70,15 @@ class StudentService
         $attributes["birthday"] = Carbon::parse($attributes["birthday"])->toDateString();
         $studentDto = new StudentDto();
         foreach ($attributes as $propertyName => $value) {
-            if ($value && $propertyName != "_token") {
-                $studentDto->setProperty($propertyName, $value);
-            }
+            try {
+                if ($value) {
+                    $studentDto->setProperty($propertyName, $value);
+                }
+            } catch (\Exception $exception) {
+            };
         }
 
         return $this->studentRepository->createStudent($studentDto);
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function studentTable($input = [])
-    {
-        $lists = [];
-        $students = $this->studentRepository->studentToTable($input);
-        foreach ($students as $student) {
-            $studentToList = new ListStudent($student);
-            $lists[] = $studentToList;
-        }
-        return DataTables::collection($lists)
-            ->addColumn("action", "I")
-            ->editColumn("name", "backend.students.columns.name")
-            ->editColumn("action", "backend.students.columns.action")
-            ->rawColumns(["name", "action"])
-            ->toJson();
-
     }
 
     public function setupCreateOperation($old = null): EntryCrud
@@ -96,7 +95,7 @@ class StudentService
             'name' => 'code',
             'label' => 'Mã học sinh',
             'type' => 'text',
-            'value' => $old->name ?? null,
+            'value' => $old->code ?? null,
             'class' => 'col-md-6',
         ]);
         $entry->addFiled([
@@ -154,6 +153,13 @@ class StudentService
             'type' => 'select',
             'value' => $old->staff_id ?? null,
             'data' => $init_staff,
+            'nullable' => true,
+            'class' => 'col-md-6',
+        ]);
+        $entry->addFiled([
+            'name' => 'password',
+            'label' => 'Mật khẩu',
+            'type' => 'password',
             'class' => 'col-md-6',
         ]);
         return $entry;
@@ -163,7 +169,7 @@ class StudentService
     {
         $student = $this->studentRepository->findById($id);
         if ($student) {
-            return new StudentEditDto($student);
+            return $this->setupCreateOperation($student);
         } else {
             return abort(404);
         }
@@ -191,8 +197,12 @@ class StudentService
         }
         $studentDto = new StudentDto();
         foreach ($attributes as $propertyName => $value) {
-            if ($value) {
-                $studentDto->setProperty($propertyName, $value);
+            try {
+                if ($value) {
+                    $studentDto->setProperty($propertyName, $value);
+                }
+            } catch (\Exception $exception) {
+
             }
         }
 //        dd($studentDto);

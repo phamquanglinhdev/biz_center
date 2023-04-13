@@ -2,7 +2,7 @@
     <label for="choices-multiple-remove-button" class="form-label">{{$field['label']??""}}</label>
     <select class="form-control" data-placeholder="Chọn nhiều...." id="choices-multiple-remove-button" data-choices
             data-choices-removeItem
-            name="{{$field['name']}}" multiple>
+            name="{{$field['name']}}[]" multiple>
         @if(!empty($field['data']))
             @foreach($field['data'] as $key => $value)
                 <option value="{{$key}}"

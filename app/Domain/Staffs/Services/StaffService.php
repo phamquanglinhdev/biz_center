@@ -131,7 +131,7 @@ class StaffService
         return $this->setupCreateOperation($old);
     }
 
-    public function updateStudent($id, $attributes)
+    public function updateStaff($id, $attributes)
     {
         $validator = Validator::make($attributes, [
             'name' => 'bail|required|max:255',

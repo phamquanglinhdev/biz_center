@@ -49,13 +49,12 @@ class StudentController extends Controller
 
     public function edit($id)
     {
-        $old = $this->studentService->getStudentById($id);
-        return view("backend.students.edit", ['old' => $old]);
+        $entry = $this->studentService->setupUpdateOperation($id);
+        return view("operations.edit", ['entry' => $entry]);
     }
 
     public function update(Request $request, string $id)
     {
-//        dd($request->input());
         return $this->studentService->updateStudent($request->except("_token", "_method"), $id);
     }
 

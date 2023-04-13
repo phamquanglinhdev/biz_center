@@ -44,7 +44,7 @@ class GradeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $this->gradeServices->createNewGrade($request->except("_token"));
     }
 
     /**

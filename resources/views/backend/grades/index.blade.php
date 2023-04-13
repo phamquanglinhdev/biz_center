@@ -1,4 +1,4 @@
-@extends("layouts.table")
+@extends("operations.table")
 @section("right_tab")
     <form action="#" class="p-1">
         <div class="h4">Lọc danh sách lớp</div>

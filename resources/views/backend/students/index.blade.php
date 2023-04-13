@@ -1,4 +1,4 @@
-@extends("layouts.table")
+@extends("operations.table")
 @push("crud_styles")
 @endpush
 @section("right_tab")
@@ -45,7 +45,8 @@
                 </div><!-- end card header -->
 
                 <div class="card-body bg-white">
-                    <table class="border table table-striped table-hover nowrap rounded shadow-xs border-xs mt-2" id="crud_table">
+                    <table class="border table table-striped table-hover nowrap rounded shadow-xs border-xs mt-2"
+                           id="crud_table">
                         <thead>
                         <tr class="bg-primary text-white">
                             <th scope="col" class="bg-primary text-white">Mã học sinh</th>

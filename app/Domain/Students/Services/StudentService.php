@@ -2,6 +2,8 @@
 
 namespace App\Domain\Students\Services;
 
+use App\Common\EntryCrud;
+use App\Domain\Staffs\Contract\StaffRepositoryInterface;
 use App\Domain\Students\DTOs\StudentDto;
 use App\Domain\Students\DTOs\ListStudent;
 use App\Domain\Students\DTOs\StudentEditDto;
@@ -14,14 +16,18 @@ use Yajra\DataTables\Facades\DataTables;
 class StudentService
 {
     protected StudentRepositoryInterface $studentRepository;
+    protected StaffRepositoryInterface $staffRepository;
 
     /**
      * @param StudentRepositoryInterface $studentRepository
+     * @param StaffRepositoryInterface $staffRepository
      */
-    public function __construct(StudentRepositoryInterface $studentRepository)
+    public function __construct(StudentRepositoryInterface $studentRepository, StaffRepositoryInterface $staffRepository)
     {
         $this->studentRepository = $studentRepository;
+        $this->staffRepository = $staffRepository;
     }
+
 
     public function createStudent(array $attributes)
     {
@@ -76,7 +82,84 @@ class StudentService
 
     }
 
-    public function getStudentById($id)
+    public function setupCreateOperation($old = null): EntryCrud
+    {
+        $init_staff = $this->staffRepository->list()->pluck("name", "id")->toArray();
+        $entry = new EntryCrud("students", "Học sinh", $old->id ?? null);
+        $entry->addFiled([
+            'name' => 'avatar',
+            'label' => 'Ảnh đại diện',
+            'type' => 'image',
+            'value' => $old->avatar ?? null,
+        ]);
+        $entry->addFiled([
+            'name' => 'code',
+            'label' => 'Mã học sinh',
+            'type' => 'text',
+            'value' => $old->name ?? null,
+            'class' => 'col-md-6',
+        ]);
+        $entry->addFiled([
+            'name' => 'name',
+            'label' => 'Tên học sinh',
+            'type' => 'text',
+            'value' => $old->name ?? null,
+            'class' => 'col-md-6',
+        ]);
+        $entry->addFiled([
+            'name' => 'birthday',
+            'label' => 'Ngày sinh',
+            'type' => 'date',
+            'value' => $old->birthday ?? null,
+            'class' => 'col-md-6',
+        ]);
+        $entry->addFiled([
+            'name' => 'phone',
+            'label' => 'Số điện thoại',
+            'type' => 'phone',
+            'value' => $old->phone ?? null,
+            'class' => 'col-md-6',
+        ]);
+        $entry->addFiled([
+            'name' => 'email',
+            'label' => 'Email',
+            'type' => 'email',
+            'value' => $old->email ?? null,
+            'class' => 'col-md-6',
+        ]);
+        $entry->addFiled([
+            'name' => 'address',
+            'label' => 'Địa chỉ',
+            'type' => 'text',
+            'value' => $old->address ?? null,
+            'class' => 'col-md-6',
+        ]);
+        $entry->addFiled([
+            'name' => 'parent',
+            'label' => 'Phụ huynh',
+            'type' => 'text',
+            'value' => $old->parent ?? null,
+            'class' => 'col-md-6',
+        ]);
+        $entry->addFiled([
+            'name' => 'parent_phone',
+            'label' => 'Số điện thoại phụ huynh',
+            'type' => 'phone',
+            'value' => $old->parent_phone ?? null,
+            'class' => 'col-md-6',
+        ]);
+        $entry->addFiled([
+            'name' => 'staff_id',
+            'label' => 'Nhân viên',
+            'type' => 'select',
+            'value' => $old->staff_id ?? null,
+            'data' => $init_staff,
+            'class' => 'col-md-6',
+        ]);
+        return $entry;
+    }
+
+    public function setupUpdateOperation($id)
     {
         $student = $this->studentRepository->findById($id);
         if ($student) {
@@ -87,14 +170,14 @@ class StudentService
 
     }
 
-    public function updateStudent($attributes,$id)
+    public function updateStudent($attributes, $id)
     {
         $validator = Validator::make($attributes, [
             'name' => 'bail|required|max:255',
             'code' => 'bail|required|max:10',
             'birthday' => 'bail|required',
             'phone' => 'bail|required',
-            'email' => 'bail|email|required|unique:users,email,'.$id,
+            'email' => 'bail|email|required|unique:users,email,' . $id,
         ], [
             'name.required' => 'Thiếu tên học sinh',
             'code.required' => 'Thiếu mã học sinh',

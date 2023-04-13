@@ -30,7 +30,7 @@
                         <form action="{{route("backend.grades.store")}}" method="post">
                             @csrf
                             <div class="row">
-                                @include("layouts.inc.avatar",['name'=>'thumbnail','label'=>''])
+                                @include("crud.fields.image",['name'=>'thumbnail','label'=>''])
                                 <div class="col-md-6 mb-3">
                                     <label for="name" class="form-label">Tên lớp học</label>
                                     <input type="text" name="name" class="form-control" id="name" required>
@@ -60,13 +60,13 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    @include("layouts.inc.select_relation",['name'=>'staffs','data'=>$relation->staffs,'label'=>'Nhân viên'])
+                                    @include("crud.fields.select_relation",['name'=>'staffs','data'=>$relation->staffs,'label'=>'Nhân viên'])
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    @include("layouts.inc.select_relation",['name'=>'teachers','data'=>null,'label'=>'Giáo viên'])
+                                    @include("crud.fields.select_relation",['name'=>'teachers','data'=>null,'label'=>'Giáo viên'])
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    @include("layouts.inc.select",['name'=>'status','data'=>$relation->initStatus,'label'=>'Trạng thái lớp'])
+                                    @include("crud.fields.select",['name'=>'status','data'=>$relation->initStatus,'label'=>'Trạng thái lớp'])
                                 </div>
                             </div>
                             <div class="w-100 mt-lg-3 text-center">

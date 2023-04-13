@@ -1,4 +1,4 @@
-@extends("layouts.table")
+@extends("operations.table")
 @push("crud_styles")
 @endpush
 @section("right_tab")

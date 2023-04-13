@@ -2,6 +2,7 @@
 
 namespace App\Domain\Staffs\Services;
 
+use App\Common\EntryCrud;
 use App\Domain\Staffs\Contract\StaffRepositoryInterface;
 use App\Domain\Staffs\Dtos\StaffEditDto;
 use App\Domain\Staffs\Dtos\StaffListDto;
@@ -37,6 +38,59 @@ class StaffService
             ->toJson();
     }
 
+    public function setupCreateOperation($old = null): EntryCrud
+    {
+        $entry = new EntryCrud('staffs', 'Nhân viên',$old->id);
+        $entry->addFiled([
+            'name' => 'code',
+            'class' => 'col-md-6',
+            'type' => 'text',
+            'label' => 'Mã nhân viên',
+            'value' => $old->code ?? "",
+        ]);
+        $entry->addFiled([
+            'name' => 'name',
+            'class' => 'col-md-6',
+            'type' => 'text',
+            'label' => 'Tên nhân viên',
+            'value' => $old->name ?? "",
+        ]);
+        $entry->addFiled([
+            'name' => 'birthday',
+            'class' => 'col-md-6',
+            'type' => 'date',
+            'label' => 'Sinh nhật',
+            'value' => $old->birthday ?? "",
+        ]);
+        $entry->addFiled([
+            'name' => 'job',
+            'class' => 'col-md-6',
+            'type' => 'text',
+            'label' => 'Chức vụ',
+            'value' => $old->job ?? "",
+        ]);
+        $entry->addFiled([
+            'name' => 'phone',
+            'class' => 'col-md-6',
+            'type' => 'phone',
+            'label' => 'Số điện thoại',
+            'value' => $old->phone ?? "",
+        ]);
+        $entry->addFiled([
+            'name' => 'email',
+            'type' => 'email',
+            'class' => 'col-md-6',
+            'label' => 'Email nhân viên',
+            'value' => $old->email ?? "",
+        ]);
+        $entry->addFiled([
+            'name' => 'password',
+            'type' => 'password',
+            'label' => 'Mật khẩu',
+        ]);
+        return $entry;
+    }
+
     public function createStaff($attributes)
     {
         $validator = Validator::make($attributes, [
@@ -70,13 +124,11 @@ class StaffService
         return $this->staffRepository->create($staffStoreDto->toArray());
     }
 
-    public function getStudentForEdit($id)
+    public function setupUpdateOperation($id)
     {
         $student = $this->staffRepository->show($id);
-        if (!$student) {
-            return abort("404");
-        }
-        return new StaffEditDto($student);
+        $old = new StaffEditDto($student);
+        return $this->setupCreateOperation($old);
     }
 
     public function updateStudent($id, $attributes)

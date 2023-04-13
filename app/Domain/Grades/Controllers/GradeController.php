@@ -35,8 +35,8 @@ class GradeController extends Controller
      */
     public function create()
     {
-        $relation = $this->gradeServices->getRelationData();
-        return view("backend.grades.create", ['relation' => $relation]);
+        $entry = $this->gradeServices->setupCreateOperation();
+        return view("operations.create", ['entry' => $entry]);
     }
 
     /**

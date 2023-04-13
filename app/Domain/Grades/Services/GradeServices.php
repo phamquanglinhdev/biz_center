@@ -2,6 +2,7 @@
 
 namespace App\Domain\Grades\Services;
 
+use App\Common\EntryCrud;
 use App\Domain\Grades\Dtos\GradeCreateDto;
 use App\Domain\Grades\Entities\Grade;
 use App\Domain\Grades\Interface\GradeRepositoryInterface;
@@ -43,10 +44,71 @@ class GradeServices
             ->toJson();
     }
 
-    public function getRelationData()
+    public function setupCreateOperation()
     {
-        $staffs = $this->staffRepository->list();
-        $students = $this->studentRepository->listAllStudent();
-        return new GradeCreateDto($staffs, $students);
+        $staffs = $this->staffRepository->list()->pluck("name", "id")->toArray();
+        $entry = new EntryCrud("grades", "Lớp học");
+        $entry->addFiled([
+            'name' => 'thumbnail',
+            'type' => 'image',
+            'label' => 'Ảnh bìa lớp học',
+        ]);
+        $entry->addFiled([
+            'name' => 'name',
+            'type' => 'text',
+            'label' => 'Tên lớp học',
+            'class' => 'col-md-6'
+        ]);
+        $entry->addFiled([
+            'name' => 'program',
+            'type' => 'text',
+            'label' => 'Chương trình học',
+            'class' => 'col-md-6',
+        ]);
+        $entry->addFiled([
+            'name' => 'time',
+            'type' => 'number',
+            'label' => 'Thời lượng(Giờ)',
+            'class' => 'col-md-6',
+        ]);
+        $entry->addFiled([
+            'name' => 'lessons',
+            'type' => 'number',
+            'label' => 'Số buổi',
+            'class' => 'col-md-6',
+        ]);
+        $entry->addFiled([
+            'name' => 'staffs',
+            'type' => 'select_relation',
+            'label' => 'Nhân viên',
+            'class' => 'col-md-6',
+            'data' => $staffs,
+        ]);
+        $entry->addFiled([
+            'name' => 'teachers',
+            'type' => 'select_relation',
+            'label' => 'Giáo viên',
+            'class' => 'col-md-6',
+            'data' => null,
+        ]);
+        $entry->addFiled([
+            'name' => 'supporters',
+            'type' => 'select_relation',
+            'label' => 'Trợ giảng',
+            'class' => 'col-md-6',
+            'data' => null,
+        ]);
+        $entry->addFiled([
+            'name' => 'status',
+            'type' => 'select',
+            'label' => 'Trạng thái lớp',
+            'class' => 'col-md-6',
+            'data' => [
+                0 => 'Đang học',
+                1 => 'Đã kết thúc',
+                2 => 'Đang bảo lưu'
+            ],
+        ]);
+        return $entry;
     }
 }

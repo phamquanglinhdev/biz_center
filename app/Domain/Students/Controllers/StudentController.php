@@ -38,7 +38,8 @@ class StudentController extends Controller
 
     public function create()
     {
-        return view("backend.students.create");
+        $entry = $this->studentService->setupCreateOperation();
+        return view("operations.create", ['entry' => $entry]);
     }
 
     public function store(Request $request)

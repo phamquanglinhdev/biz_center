@@ -34,7 +34,7 @@ class StaffController extends Controller
      */
     public function create()
     {
-        return view("backend.staffs.create");
+        return view("operations.create", ['entry' => $this->staffService->setupCreateOperation()]);
     }
 
     /**
@@ -58,8 +58,8 @@ class StaffController extends Controller
      */
     public function edit(string $id)
     {
-        $old = $this->staffService->getStudentForEdit($id);
-        return view("backend.staffs.edit", ['old' => $old]);
+        $entry = $this->staffService->setupUpdateOperation($id);
+        return view("operations.edit", ['entry' => $entry]);
     }
 
     /**

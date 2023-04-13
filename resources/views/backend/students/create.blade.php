@@ -17,7 +17,8 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb p-3 py-2 mb-0">
                             <li class="breadcrumb-item"><a href="#"><i class="ri-home-5-fill"></i></a></li>
-                            <li class="breadcrumb-item"><a class="h6 text-primary" href="{{route("backend.students.index")}}">Học sinh</a></li>
+                            <li class="breadcrumb-item"><a class="h6 text-primary"
+                                                           href="{{route("backend.students.index")}}">Học sinh</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Thêm học sinh mới</li>
                         </ol>
                     </nav>
@@ -28,7 +29,7 @@
                     <div class="card-body">
                         <form action="{{route("backend.students.store")}}" method="post">
                             @csrf
-                            @include("layouts.inc.avatar",['name'=>'avatar','label'=>'Ảnh đại diện'])
+                            @include("crud.fields.image",['name'=>'avatar','label'=>'Ảnh đại diện'])
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="code" class="form-label">Mã học sinh</label>
@@ -116,7 +117,7 @@
                                 </div>
                             </div>
                             <div class="w-100 mt-lg-3 text-center">
-                                <button  class="btn btn-primary btn-label">
+                                <button class="btn btn-primary btn-label">
                                     <div class="d-flex">
                                         <div class="flex-shrink-0">
                                             <i class="ri-check-fill label-icon align-middle fs-16 me-2"></i>

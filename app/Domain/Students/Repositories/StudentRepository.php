@@ -41,9 +41,9 @@ class StudentRepository implements StudentRepositoryInterface
         return $query->orderBy("created_at", "DESC")->get();
     }
 
-    public function listAllStudent($orderBy = "created_at", $direction = "DESC", $perPage = 15)
+    public function listAllStudent($orderBy = "created_at", $direction = "DESC")
     {
-        return $this->model->orderBy($orderBy, $direction)->pagination($perPage);
+        return $this->model->orderBy($orderBy, $direction)->get();
     }
 
     public function listStudentOfStaff($staff_id, $orderBy = "created_at", $direction = "ASC", $perPage = 15)

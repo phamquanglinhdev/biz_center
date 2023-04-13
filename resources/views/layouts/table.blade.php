@@ -118,11 +118,11 @@
             $(".d-print-none").css("display", "inline-flex")
             $(window).resize(function () {
                 const width = $(".dataTables_scrollHead").width()
-                $("table").css("min-width",width*0.98)
+                $("table").css("min-width", width * 0.98)
             })
             $(".topnav-hamburger").click(function () {
                 const width = $(".dataTables_scrollHead").width()
-                $("table").css("min-width",width*0.98)
+                $("table").css("min-width", width * 0.98)
             })
             $(window).resize()
         })
@@ -135,6 +135,10 @@
 
         div.dataTables_wrapper div.dataTables_paginate {
             margin-left: 5em;
+        }
+
+        td {
+            border: 1px solid #80808021;
         }
     </style>
     @yield("custom_scripts")

@@ -31,13 +31,13 @@ class GradeListDto
     public function setStatus($status)
     {
         switch ($status) {
-            case "learn":
+            case 0:
                 $this->status = "Đang học";
                 break;
-            case "stop":
-                $this->status = "Đã ngừng học";
+            case 1:
+                $this->status = "Đã kết thúc";
                 break;
-            case "save":
+            case 2:
                 $this->status = "Đã bảo lưu";
         }
     }

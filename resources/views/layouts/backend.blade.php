@@ -22,6 +22,9 @@
         #crud_table{
             display: none;
         }
+        html{
+            min-height: auto!important;
+        }
     </style>
 </head>
 

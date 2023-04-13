@@ -55,7 +55,7 @@
                 </div><!-- end card header -->
 
                 <div class="card-body bg-white">
-                    <table class="border table-bordered table table-hover nowrap rounded mt-2"
+                    <table class="border table table-hover nowrap rounded mt-2"
                            id="crud_table">
                         <thead>
                         <tr class="bg-primary text-white">

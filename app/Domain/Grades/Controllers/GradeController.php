@@ -24,7 +24,7 @@ class GradeController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-          return  $this->gradeServices->getListGrades($request->all());
+            return $this->gradeServices->getListGrades($request->all());
         }
 //        dd($this->gradeServices->getListGrades($request->all()));
         return view("backend.grades.index");
@@ -35,7 +35,8 @@ class GradeController extends Controller
      */
     public function create()
     {
-        //
+        $relation = $this->gradeServices->getRelationData();
+        return view("backend.grades.create", ['relation' => $relation]);
     }
 
     /**

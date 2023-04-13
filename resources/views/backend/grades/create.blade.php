@@ -27,7 +27,7 @@
             <div class="col-md-9 col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{route("backend.staffs.store")}}" method="post">
+                        <form action="{{route("backend.grades.store")}}" method="post">
                             @csrf
                             <div class="row">
                                 @include("layouts.inc.avatar",['name'=>'thumbnail','label'=>''])

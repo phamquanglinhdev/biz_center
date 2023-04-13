@@ -13,6 +13,7 @@ class GradeListDto
     public string $staff;
     public string $teacher;
     public string $student;
+    public string $supporter;
 
     public function __construct($repository)
     {
@@ -26,6 +27,7 @@ class GradeListDto
         $this->teacher = $repository->Teachers()->get(["name"]) ?? "-";
         $this->student = $repository->Students()->get(["name"]) ?? "-";
         $this->staff = $repository->Staffs()->get(["name"]) ?? "-";
+        $this->supporter = $repository->Supporters()->get(["name"]) ?? "-";
     }
 
     public function setStatus($status)

@@ -53,8 +53,12 @@ class GradeServices
         }
         return DataTables::collection($list)
             ->editColumn("name", "backend.grades.columns.name")
+            ->editColumn("staff", "backend.grades.columns.staffs")
+            ->editColumn("student", "backend.grades.columns.students")
+            ->editColumn("supporter", "backend.grades.columns.supporters")
+            ->editColumn("teacher", "backend.grades.columns.teachers")
             ->editColumn("action", "backend.grades.columns.action")
-            ->rawColumns(["name", "action"])
+            ->rawColumns(["name", "action", "student", "teacher", "staff", "supporter"])
             ->toJson();
     }
 

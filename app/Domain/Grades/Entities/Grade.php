@@ -22,8 +22,14 @@ class Grade extends Model
     {
         return $this->belongsToMany(Teacher::class, "teacher_grade", "grade_id", "teacher_id");
     }
+
     public function Students(): BelongsToMany
     {
         return $this->belongsToMany(Student::class, "student_grade", "grade_id", "student_id");
+    }
+
+    public function Supporters()
+    {
+        return $this->belongsToMany(Supporter::class, "supporter_grade", "grade_id", "supporter_id");
     }
 }

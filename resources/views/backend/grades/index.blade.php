@@ -53,6 +53,7 @@
                             <th scope="col" class="bg-primary text-white">Số buổi</th>
                             <th scope="col" class="bg-primary text-white">Nhân viên quản lý</th>
                             <th scope="col" class="bg-primary text-white">Giáo viên</th>
+                            <th scope="col" class="bg-primary text-white">Trợ giảng</th>
                             <th scope="col" class="bg-primary text-white">Học sinh</th>
                             <th scope="col" class="bg-primary text-white">Trạng thái</th>
                             <th scope="col" class="bg-primary text-white text-center">Hành động</th>
@@ -66,6 +67,7 @@
                             <th scope="col" class="bg-primary text-white">Số buổi</th>
                             <th scope="col" class="bg-primary text-white">Nhân viên quản lý</th>
                             <th scope="col" class="bg-primary text-white">Giáo viên</th>
+                            <th scope="col" class="bg-primary text-white">Trợ giảng</th>
                             <th scope="col" class="bg-primary text-white">Học sinh</th>
                             <th scope="col" class="bg-primary text-white">Trạng thái</th>
                             <th scope="col" class="bg-primary text-white text-center">Hành động</th>
@@ -88,6 +90,7 @@
             {data: 'lessons', name: "Số buổi"},
             {data: 'staff', name: "Nhân viên quản lý"},
             {data: 'teacher', name: "Giáo viên"},
+            {data: 'supporter', name: "Trợ giảng"},
             {data: 'student', name: "Học sinh"},
             {data: 'status', name: "Trạng thái"},
             {data: 'action', name: "Hành động"},

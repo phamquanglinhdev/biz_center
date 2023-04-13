@@ -166,7 +166,7 @@ class GradeServices
         if ($grade = $this->gradeRepository->createSingleGrade($dto->toArray())) {
             $this->staffRepository->createRelationGrade($grade->id, $attributes["staffs"] ?? []);
             $this->teacherRepository->createRelationGrade($grade->id, $attributes["teachers"] ?? []);
-            $this->supporterRepository->createRelationGrade($grade->id, $attributes["supporter"] ?? []);
+            $this->supporterRepository->createRelationGrade($grade->id, $attributes["supporters"] ?? []);
         }
         return redirect()->route("backend.grades.index")->with("success", "Thêm thành công");
 

@@ -28,7 +28,7 @@
             <div class="col-md-9 col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{route("backend.".$entry->name.".store")}}" method="post">
+                        <form action="{{route("backend.".$entry->name.".store")}}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 @foreach($entry->fields as $field)

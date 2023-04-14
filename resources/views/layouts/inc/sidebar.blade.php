@@ -23,7 +23,7 @@
                         <a href="{{route("backend.students.index")}}" class="nav-link" data-key="t-user">Học sinh</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link" data-key="t-user">Giáo viên</a>
+                        <a href="{{route("backend.teachers.index")}}" class="nav-link" data-key="t-user">Giáo viên</a>
                     </li>
                 </ul>
             </div>

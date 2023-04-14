@@ -40,7 +40,7 @@ class StaffService
 
     public function setupCreateOperation($old = null): EntryCrud
     {
-        $entry = new EntryCrud('staffs', 'Nhân viên',$old->id);
+        $entry = new EntryCrud('staffs', 'Nhân viên',$old->id??null);
         $entry->addFiled([
             'name' => 'code',
             'class' => 'col-md-6',

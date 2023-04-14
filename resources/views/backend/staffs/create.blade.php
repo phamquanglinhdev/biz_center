@@ -27,7 +27,7 @@
             <div class="col-md-9 col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{route("backend.staffs.store")}}" method="post">
+                        <form action="{{route("backend.staffs.store")}}" method="post" >
                             @csrf
                             <div class="row">
                                 <div class="col-md-6 mb-3">

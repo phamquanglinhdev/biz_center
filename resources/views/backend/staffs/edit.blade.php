@@ -28,7 +28,7 @@
             <div class="col-md-9 col-12 ">
                 <div class="card pb-5">
                     <div class="card-body">
-                        <form action="{{route("backend.staffs.update",$old->id)}}" method="post">
+                        <form action="{{route("backend.staffs.update",$old->id)}}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method("PUT")
                             <div class="row">

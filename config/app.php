@@ -1,6 +1,7 @@
 <?php
 
 use App\Domain\Grades\Provider\GradeServiceProvider;
+use App\Domain\Teachers\Providers\TeacherServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -193,6 +194,7 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         GradeServiceProvider::class,
+        TeacherServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,

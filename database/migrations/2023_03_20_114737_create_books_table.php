@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->longText("thumbnail");
             $table->longText("description")->nullable();
             $table->string("url");
-            $table->foreign("bag_id")->references("id")->on("bags")->cascadeOnUpdate();
+            $table->foreign("bag_id")->references("id")->on("bags")->cascadeOnDelete();
             $table->timestamps();
         });
     }

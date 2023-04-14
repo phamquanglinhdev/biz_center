@@ -16,6 +16,7 @@
     <link href="{{asset("assets/css/bootstrap.min.css")}}" rel="stylesheet" type="text/css"/>
     <!-- Icons Css -->
     <link href="{{asset("assets/css/icons.min.css")}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset("assets/libs/sweetalert2/sweetalert2.min.css")}}" rel="stylesheet" type="text/css"/>
     <!-- App Css-->
     <link href="{{asset("assets/css/app.min.css")}}" rel="stylesheet" type="text/css"/>
     <style>
@@ -930,6 +931,7 @@
 <script src="{{asset("assets/libs/node-waves/waves.min.js")}}"></script>
 <script src="{{asset("assets/libs/feather-icons/feather.min.js")}}"></script>
 <script src="{{asset("assets/js/plugins.js")}}"></script>
+<script src="{{asset("assets/libs/sweetalert2/sweetalert2.min.js")}}"></script>
 
 @stack("crud_scripts")
 <!-- App js -->
@@ -940,5 +942,18 @@
         $("#wait-crud-table").hide()
     }
 </script>
+@if(session("success"))
+    <script>
+        $(document).ready(
+            Swal.fire({
+                icon: "success",
+                title: "Thành công",
+                showConfirmButton: !1,
+                timer: 1000,
+                showCloseButton: !0
+            })
+        )
+    </script>
+@endif
 </body>
 </html>

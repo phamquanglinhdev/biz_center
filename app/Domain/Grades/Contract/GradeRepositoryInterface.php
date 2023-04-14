@@ -9,7 +9,7 @@ interface GradeRepositoryInterface
 
     public function createSingleGrade($attribute);
 
-    public function updateSingleGrade($id);
+    public function updateSingleGrade($id,$attribute);
 
     public function deleteSingleGrade($id);
 }

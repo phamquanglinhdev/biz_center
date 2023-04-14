@@ -15,9 +15,9 @@ return new class extends Migration {
         Schema::create('student_grade', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("student_id");
-            $table->foreign("student_id")->references("id")->on("users");
+            $table->foreign("student_id")->references("id")->on("users")->cascadeOnDelete();
             $table->unsignedBigInteger("grade_id");
-            $table->foreign("grade_id")->references("id")->on("grades");
+            $table->foreign("grade_id")->references("id")->on("grades")->cascadeOnDelete();
             $table->date("start");
             $table->integer("pricing");
             $table->integer("current");

@@ -32,14 +32,16 @@ class GradeRepository implements GradeRepositoryInterface
         return $this->grade->create($attribute);
     }
 
-    public function updateSingleGrade($id)
+    public function updateSingleGrade($id, $attribute)
     {
         // TODO: Implement updateSingleGrade() method.
+        return $this->grade->where("id",$id)->update($attribute);
     }
 
     public function deleteSingleGrade($id)
     {
         // TODO: Implement deleteSingleGrade() method.
+        return $this->grade->where("id",$id)->delete($id);
     }
 
 }

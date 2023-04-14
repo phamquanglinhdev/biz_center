@@ -18,7 +18,7 @@
                         <ol class="breadcrumb p-3 py-2 mb-0">
                             <li class="breadcrumb-item"><a href="#"><i class="ri-home-5-fill"></i></a></li>
                             <li class="breadcrumb-item"><a class="h6 text-primary"
-                                                           href="{{route("backend.staffs.index")}}">{{$entry->label}}</a>
+                                                           href="{{route("backend.".$entry->name.".index")}}">{{$entry->label}}</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa {{$entry->label}}</li>
                         </ol>
@@ -31,7 +31,7 @@
                         <form action="{{route("backend.".$entry->name.".update",$entry->id)}}" method="post">
                             @method("PUT")
                             @csrf
-                         
+
                             <div class="row">
                                 @foreach($entry->fields as $field)
                                     <div class="{{$field['class']??"col-md-12"}} mb-3">

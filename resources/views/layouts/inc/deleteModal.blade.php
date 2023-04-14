@@ -8,8 +8,8 @@
             <div class="modal-body">
                 <div class="mt-2 text-center">
                     <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
-                        <h4>Xóa dữ liệu</h4>
-                        <p class="text-muted mx-4 mb-0">Xác nhận xóa dữ liệu, bạn sẽ không thể khôi phục lại </p>
+                        <div class="h6 text-muted text-center mx-4 mb-0">Xác nhận xóa dữ liệu, những dữ liệu <br><b class="text-danger">có liên quan</b> cũng sẽ bị xóa và
+                            <b class="text-danger">không thể khôi phục</b> </div>
                     </div>
                 </div>
                 <div class="d-flex gap-2 justify-content-center mt-4 mb-2">

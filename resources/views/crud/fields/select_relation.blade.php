@@ -6,8 +6,9 @@
         @if(!empty($field['data']))
             @foreach($field['data'] as $key => $value)
                 <option value="{{$key}}"
-
-
+                    @if(in_array($key,$field['value']))
+                        selected
+                    @endif
                 >{{$value}}
                 </option>
             @endforeach

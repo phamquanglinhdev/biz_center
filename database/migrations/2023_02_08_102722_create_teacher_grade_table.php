@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('teacher_grade', function (Blueprint $table) {
             $table->unsignedBigInteger("teacher_id");
-            $table->foreign("teacher_id")->references("id")->on("users");
+            $table->foreign("teacher_id")->references("id")->on("users")->cascadeOnDelete();
             $table->unsignedBigInteger("grade_id");
-            $table->foreign("grade_id")->references("id")->on("grades");
+            $table->foreign("grade_id")->references("id")->on("grades")->cascadeOnDelete();
             $table->timestamps();
         });
     }

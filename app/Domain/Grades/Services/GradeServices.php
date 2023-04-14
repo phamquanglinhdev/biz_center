@@ -8,8 +8,10 @@ use App\Domain\Grades\Contract\TeacherRepositoryInterface;
 use App\Domain\Grades\Contract\StudentRepositoryInterface;
 use App\Domain\Grades\Contract\GradeRepositoryInterface;
 use App\Domain\Grades\Contract\StaffRepositoryInterface;
+use App\Domain\Grades\Dtos\GradeEditDto;
 use App\Domain\Grades\DTOs\GradeListDto;
 use App\Domain\Grades\Dtos\GradeStoreDto;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -62,46 +64,52 @@ class GradeServices
             ->toJson();
     }
 
-    public function setupCreateOperation(): EntryCrud
+    public function setupCreateOperation($id=null,$old=null): EntryCrud
     {
         $staffs = $this->staffRepository->all()->pluck("name", "id")->toArray();
         $teachers = $this->teacherRepository->all()->pluck("name", "id")->toArray();
         $supporter = $this->supporterRepository->all()->pluck("name", "id")->toArray();
-        $entry = new EntryCrud("grades", "Lớp học");
+        $entry = new EntryCrud("grades", "Lớp học",$id??null);
         $entry->addFiled([
             'name' => 'thumbnail',
             'type' => 'image',
             'label' => 'Ảnh bìa lớp học',
+            'value'=>$old->thumbnail??null,
         ]);
         $entry->addFiled([
             'name' => 'name',
             'type' => 'text',
             'label' => 'Tên lớp học',
-            'class' => 'col-md-6'
+            'class' => 'col-md-6',
+            'value'=>$old->name??null,
         ]);
         $entry->addFiled([
             'name' => 'program',
             'type' => 'text',
             'label' => 'Chương trình học',
             'class' => 'col-md-6',
+            'value'=>$old->program??null,
         ]);
         $entry->addFiled([
             'name' => 'time',
             'type' => 'number',
             'label' => 'Thời lượng(Giờ)',
             'class' => 'col-md-6',
+            'value'=>$old->time??null,
         ]);
         $entry->addFiled([
             'name' => 'lessons',
             'type' => 'number',
             'label' => 'Số buổi',
             'class' => 'col-md-6',
+            'value'=>$old->lessons??null,
         ]);
         $entry->addFiled([
             'name' => 'staffs',
             'type' => 'select_relation',
             'label' => 'Nhân viên',
             'class' => 'col-md-6',
+            'value'=>$old->staffs??null,
             'data' => $staffs,
         ]);
         $entry->addFiled([
@@ -109,6 +117,7 @@ class GradeServices
             'type' => 'select_relation',
             'label' => 'Giáo viên',
             'class' => 'col-md-6',
+            'value'=>$old->teachers??null,
             'data' => $teachers,
         ]);
         $entry->addFiled([
@@ -116,12 +125,14 @@ class GradeServices
             'type' => 'select_relation',
             'label' => 'Trợ giảng',
             'class' => 'col-md-6',
+            'value'=>$old->supporters??null,
             'data' => $supporter,
         ]);
         $entry->addFiled([
             'name' => 'status',
             'type' => 'select',
             'label' => 'Trạng thái lớp',
+            'value'=>$old->status??null,
             'class' => 'col-md-6',
             'data' => [
                 0 => 'Đang học',
@@ -170,5 +181,59 @@ class GradeServices
         }
         return redirect()->route("backend.grades.index")->with("success", "Thêm thành công");
 
+    }
+    public function setupUpdateOperation($id){
+        $grade  = $this->gradeRepository->getSingleGrade($id);
+        if(!$grade){
+            return abort("404");
+        }
+        $old = new GradeEditDto($grade);
+        return $this->setupCreateOperation($id,$old);
+    }
+    public function updateGrade($id,$attributes){
+        $validator = Validator::make($attributes, [
+            'name' => 'bail|required|max:255',
+            'program' => 'bail|required',
+            'time' => 'bail|required',
+            'lessons' => 'bail|required',
+            'status' => 'bail|required',
+        ], [
+            'name.required' => 'Thiếu tên lớp học',
+            'program.required' => 'Thiếu chương trình học',
+            'time.required' => 'Thiếu thời lượng',
+            'lessons.required' => 'Thiếu số buổi học',
+            'status.required' => 'Thiếu trạng thái lớp',
+        ]);
+        $attributes['status'] = (int)($attributes['status']);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors());
+        }
+        $dto = new GradeStoreDto();
+        foreach ($attributes as $propertyName => $value) {
+            try {
+
+            } catch (\Exception $exception) {
+
+            }
+            if ($value) {
+                $dto->setProperty($propertyName, $value);
+            }
+            $dto->setStatus($attributes['status']);
+        }
+        if ($grade = $this->gradeRepository->updateSingleGrade($id,$dto->toArray())) {
+            $this->staffRepository->createRelationGrade($id, $attributes["staffs"] ?? []);
+            $this->teacherRepository->createRelationGrade($id, $attributes["teachers"] ?? []);
+            $this->supporterRepository->createRelationGrade($id, $attributes["supporters"] ?? []);
+        }
+        return redirect()->route("backend.grades.index")->with("success", "Thêm thành công");
+    }
+    public function deleteGrade($id){
+        try {
+            $this->gradeRepository->deleteSingleGrade($id);
+        }catch (\Exception $exception){
+            Log::alert($exception);
+            return abort("500");
+        }
+        return redirect()->route("backend.grades.index")->with("success","Thành công");
     }
 }

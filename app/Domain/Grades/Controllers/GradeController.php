@@ -60,7 +60,8 @@ class GradeController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $entry  = $this->gradeServices->setupUpdateOperation($id);
+        return view("operations.edit",['entry'=>$entry]);
     }
 
     /**
@@ -68,7 +69,7 @@ class GradeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        return $this->gradeServices->updateGrade($id,$request->except("_method","_token"));
     }
 
     /**
@@ -76,6 +77,6 @@ class GradeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return $this->gradeServices->deleteGrade($id);
     }
 }

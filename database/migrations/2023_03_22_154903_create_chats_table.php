@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->unsignedBigInteger("conversation_id");
             $table->unsignedBigInteger("user_id");
             $table->foreign("conversation_id")->references("id")->on("conversations");
-            $table->foreign("user_id")->references("id")->on("users");
+            $table->foreign("user_id")->references("id")->on("users")->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger("staff_id");
             $table->unsignedBigInteger("student_id");
-            $table->foreign("staff_id")->references("id")->on("users");
-            $table->foreign("student_id")->references("id")->on("users");
+            $table->foreign("staff_id")->references("id")->on("users")->cascadeOnDelete();
+            $table->foreign("student_id")->references("id")->on("users")->cascadeOnDelete();
             $table->string("note");
             $table->string("origin")->default("bizsoft");
             $table->timestamps();

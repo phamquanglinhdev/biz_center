@@ -24,7 +24,7 @@ return new class extends Migration {
             $table->longText("question")->nullable();
             $table->longText("teacher_comment")->nullable();
             $table->unsignedBigInteger("teacher_id");
-            $table->foreign("grade_id")->references("id")->on("grades");
+            $table->foreign("grade_id")->references("id")->on("grades")->cascadeOnDelete();
             $table->longText("students")->nullable();
             $table->string("attachments")->nullable();
             $table->string("origin")->default("bizsoft");
